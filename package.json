@@ -65,7 +65,7 @@
       }
     },
     "start:prod": {
-      "command": "babel-node bin/server",
+      "command": "node bin/server",
       "env": {
         "NODE_ENV": "production"
       }
