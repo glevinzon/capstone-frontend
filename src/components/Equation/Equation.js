@@ -1,16 +1,15 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component, PropTypes } from 'react';
 
 class componentName extends Component {
   render() {
     return (
-      <div>
-      </div>
-    )
+      <div />
+    );
   }
 }
 
 componentName.propTypes = {
 
-}
+};
 
-export default componentName
+export default componentName;
