@@ -1,1 +1,1 @@
-web: npm postinstall script and npm start
+web: npm run postinstall and npm start
