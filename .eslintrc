@@ -2,14 +2,12 @@
   "parser"  : "babel-eslint",
   "extends" : [
     "standard",
-    "standard-react",
-    "plugin:es-beautifier/standard"
+    "standard-react"
   ],
   "plugins": [
     "babel",
     "react",
-    "promise",
-    "es-beautifier"
+    "promise"
   ],
   "env"     : {
     "browser" : true
