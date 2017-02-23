@@ -43,7 +43,7 @@ class EquationForm extends Component {
             <label>Tags</label>
             <Dropdown
               options={this.state.stateOptions}
-              placeholder='Choose Languages'
+              placeholder='Choose Tags'
               search
               selection
               fluid
