@@ -7,7 +7,8 @@ import config from '../config'
 const debug = _debug('app:bin:compile')
 const paths = config.utils_paths
 
-;(async function () {
+;
+(async function () {
   try {
     debug('Run compiler')
     const stats = await webpackCompiler(webpackConfig)

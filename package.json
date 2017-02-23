@@ -4,15 +4,17 @@
   "description": "Get started with React, Redux, and React-Router!",
   "main": "index.js",
   "engines": {
-    "node": ">=6.6.0",
-    "npm": "^3.10.3"
+    "node": "^6.6.0",
+    "npm": "3.10.3"
   },
   "scripts": {
     "clean": "rimraf dist",
     "compile": "better-npm-run compile",
     "lint": "eslint src tests server",
     "lint:fix": "npm run lint -- --fix",
-    "start": "better-npm-run start",
+    "serve": "better-npm-run start",
+    "start": "better-npm-run start:prod",
+    "postinstall": "npm run deploy:prod",
     "dev": "better-npm-run dev",
     "dev:no-debug": "npm run dev -- --no_debug",
     "test": "better-npm-run test",
@@ -62,6 +64,13 @@
         "DEBUG": "app:*"
       }
     },
+    "start:prod": {
+      "command": "babel-node bin/server",
+      "env": {
+        "NODE_ENV": "production",
+        "DEBUG": "app:*"
+      }
+    },
     "test": {
       "command": "babel-node ./node_modules/karma/bin/karma start build/karma.conf",
       "env": {
@@ -105,7 +114,7 @@
     "koa-convert": "^1.2.0",
     "koa-proxy": "^0.6.0",
     "koa-static": "^3.0.0",
-    "node-sass": "^3.7.0",
+    "node-sass": "^4.5.0",
     "normalize.css": "^4.1.1",
     "postcss-loader": "^0.9.0",
     "react": "^15.0.0",
@@ -130,7 +139,7 @@
     "cheerio": "^0.20.0",
     "codecov": "^1.0.1",
     "enzyme": "^2.0.0",
-    "eslint": "^3.0.1",
+    "eslint": "^3.16.0",
     "eslint-config-standard": "^5.1.0",
     "eslint-config-standard-react": "^3.0.0",
     "eslint-plugin-babel": "^3.2.0",

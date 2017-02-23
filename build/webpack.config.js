@@ -7,7 +7,7 @@ import _debug from 'debug'
 
 const debug = _debug('app:webpack:config')
 const paths = config.utils_paths
-const {__DEV__, __PROD__, __TEST__} = config.globals
+const { __DEV__, __PROD__, __TEST__ } = config.globals
 
 debug('Create configuration.')
 const webpackConfig = {
@@ -61,6 +61,10 @@ webpackConfig.plugins = [
 ]
 
 if (__DEV__) {
+  webpackConfig.cache = true
+  webpackConfig.debug = true
+  webpackConfig.output.pathinfo = true
+  webpackConfig.devtool = 'eval'
   debug('Enable plugins for live development (HMR, NoErrors).')
   webpackConfig.plugins.push(
     new webpack.HotModuleReplacementPlugin(),
@@ -257,8 +261,8 @@ webpackConfig.module.loaders.push(
 // http://stackoverflow.com/questions/34133808/webpack-ots-parsing-error-loading-fonts/34133809#34133809
 if (!__DEV__) {
   debug('Apply ExtractTextPlugin to CSS loaders.')
-  webpackConfig.module.loaders.filter((loader) =>
-    loader.loaders && loader.loaders.find((name) => /css/.test(name.split('?')[0]))
+  webpackConfig.module.loaders.filter(loader =>
+    loader.loaders && loader.loaders.find(name => /css/.test(name.split('?')[0]))
   ).forEach((loader) => {
     const [first, ...rest] = loader.loaders
     loader.loader = ExtractTextPlugin.extract(first, rest.join('!'))
