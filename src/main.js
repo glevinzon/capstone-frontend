@@ -10,7 +10,7 @@ import AppContainer from './containers/AppContainer'
 // Browser History Setup
 // ========================================================
 const browserHistory = useRouterHistory(createBrowserHistory)({
-  basename: __BASENAME__,
+  basename: __BASENAME__
 })
 
 // ========================================================
@@ -23,17 +23,8 @@ const browserHistory = useRouterHistory(createBrowserHistory)({
 const initialState = window.___INITIAL_STATE__
 const store = createStore(initialState, browserHistory)
 const history = syncHistoryWithStore(browserHistory, store, {
-  selectLocationState: state => state.router,
+  selectLocationState: (state) => state.router
 })
-
-// ========================================================
-// Developer Tools Setup
-// ========================================================
-if (__DEBUG__) {
-  if (window.devToolsExtension) {
-    window.devToolsExtension.open()
-  }
-}
 
 // ========================================================
 // Render Setup
@@ -46,11 +37,20 @@ let render = () => {
   ReactDOM.render(
     <AppContainer
       store={store}
-      history={history}
+      history={browserHistory}
       routes={routes}
     />,
     MOUNT_NODE
   )
+}
+
+// ========================================================
+// Developer Tools Setup
+// ========================================================
+if (__DEV__) {
+  if (window.devToolsExtension) {
+    window.devToolsExtension.open()
+  }
 }
 
 // This code is excluded from production bundle

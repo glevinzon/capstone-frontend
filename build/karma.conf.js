@@ -1,11 +1,9 @@
-import { argv } from 'yargs'
-import config from '../config'
-import webpackConfig from './webpack.config'
-import _debug from 'debug'
+const argv = require('yargs').argv
+const config = require('../config')
+const webpackConfig = require('./webpack.config')
+const debug = require('debug')('app:karma')
 
-const debug = _debug('app:karma')
-debug('Create configuration.')
-
+debug('Creating configuration.')
 const karmaConfig = {
   basePath: '../', // project root in relation to bin/karma.js
   files: [
@@ -13,53 +11,50 @@ const karmaConfig = {
       pattern: `./${config.dir_test}/test-bundler.js`,
       watched: false,
       served: true,
-      included: true,
-    },
+      included: true
+    }
   ],
   singleRun: !argv.watch,
   frameworks: ['mocha'],
   reporters: ['mocha'],
   preprocessors: {
-    [`${config.dir_test}/test-bundler.js`]: ['webpack'],
+    [`${config.dir_test}/test-bundler.js`]: ['webpack']
   },
   browsers: ['PhantomJS'],
   webpack: {
     devtool: 'cheap-module-source-map',
-    resolve: {
-      ...webpackConfig.resolve,
-      alias: {
-        ...webpackConfig.resolve.alias,
-        sinon: 'sinon/pkg/sinon.js',
-      },
-    },
+    resolve: Object.assign({}, webpackConfig.resolve, {
+      alias: Object.assign({}, webpackConfig.resolve.alias, {
+        sinon: 'sinon/pkg/sinon.js'
+      })
+    }),
     plugins: webpackConfig.plugins,
     module: {
       noParse: [
-        /\/sinon\.js/,
+        /\/sinon\.js/
       ],
       loaders: webpackConfig.module.loaders.concat([
         {
           test: /sinon(\\|\/)pkg(\\|\/)sinon\.js/,
-          loader: 'imports?define=>false,require=>false',
-        },
-      ]),
+          loader: 'imports?define=>false,require=>false'
+        }
+      ])
     },
     // Enzyme fix, see:
     // https://github.com/airbnb/enzyme/issues/47
-    externals: {
-      ...webpackConfig.externals,
+    externals: Object.assign({}, webpackConfig.externals, {
       'react/addons': true,
       'react/lib/ExecutionEnvironment': true,
-      'react/lib/ReactContext': 'window',
-    },
-    sassLoader: webpackConfig.sassLoader,
+      'react/lib/ReactContext': 'window'
+    }),
+    sassLoader: webpackConfig.sassLoader
   },
   webpackMiddleware: {
-    noInfo: true,
+    noInfo: true
   },
   coverageReporter: {
-    reporters: config.coverage_reporters,
-  },
+    reporters: config.coverage_reporters
+  }
 }
 
 if (config.globals.__COVERAGE__) {
@@ -67,10 +62,11 @@ if (config.globals.__COVERAGE__) {
   karmaConfig.webpack.module.preLoaders = [{
     test: /\.(js|jsx)$/,
     include: new RegExp(config.dir_client),
-    loader: 'isparta',
-    exclude: /node_modules/,
+    loader: 'babel',
+    query: Object.assign({}, config.compiler_babel, {
+      plugins: (config.compiler_babel.plugins || []).concat('istanbul')
+    })
   }]
 }
 
-// cannot use `export default` because of Karma.
-module.exports = cfg => cfg.set(karmaConfig)
+module.exports = (cfg) => cfg.set(karmaConfig)
