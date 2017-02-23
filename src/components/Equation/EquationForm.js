@@ -4,32 +4,28 @@ import { Form, Input, Dropdown } from 'semantic-ui-react'
 const FormGroup = Form.Group
 const FormField = Form.Field
 
+const options = [
+  { key: 'English', text: 'English', value: 'English' },
+  { key: 'French', text: 'French', value: 'French' },
+  { key: 'Spanish', text: 'Spanish', value: 'Spanish' },
+  { key: 'German', text: 'German', value: 'German' },
+  { key: 'Chinese', text: 'Chinese', value: 'Chinese' },
+]
+
 class EquationForm extends Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      stateOptions: [
-        { key: 'English', text: 'English', value: 'English' },
-        { key: 'French', text: 'French', value: 'French' },
-        { key: 'Spanish', text: 'Spanish', value: 'Spanish' },
-        { key: 'German', text: 'German', value: 'German' },
-        { key: 'Chinese', text: 'Chinese', value: 'Chinese' }
-      ]
-    }
-  }
+  state = { options }
 
   handleAddition = (e, { value }) => {
     this.setState({
-      stateOptions: [{ text: value, value }, ...this.state.stateOptions]
+      options: [{ text: value, value }, ...this.state.options],
     })
   }
 
-  handleChange = (e, { value }) => {
-    this.setState({ stateOptions: value })
-  }
+  handleChange = (e, { value }) => this.setState({ currentValues: value })
 
   render () {
-    const { stateOptions } = this.state
+    const { currentValues } = this.state
+
     return (
       <Form>
         <FormGroup widths='equal'>
@@ -44,14 +40,14 @@ class EquationForm extends Component {
           <FormField>
             <label>Tags</label>
             <Dropdown
-              options={this.state.stateOptions}
+              options={this.state.options}
               placeholder='Choose Tags'
               search
               selection
               fluid
               multiple
               allowAdditions
-              value={stateOptions}
+              value={currentValues}
               onAddItem={this.handleAddition}
               onChange={this.handleChange}
             />
