@@ -80,11 +80,11 @@ export function getEquation (eqId) {
   }
 }
 
-export function updateEquation (data, shopId) {
+export function updateEquation (data, eqId) {
   return (dispatch, getState) => {
     return dispatch({
       [CALL_API]: {
-        endpoint: `/api/equations/${shopId}`,
+        endpoint: `/api/equations/${eqId}`,
         method: 'PUT',
         headers: {
           'Accept': 'application/json',
@@ -202,7 +202,7 @@ const initialState = {
   equation: [],
   fetchingEquation: false
 }
-export default function shopsReducer (state = initialState, action) {
+export default function equationsReducer (state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
 
   return handler ? handler(state, action) : state

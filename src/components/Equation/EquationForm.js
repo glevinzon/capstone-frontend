@@ -9,7 +9,7 @@ const options = [
   { key: 'French', text: 'French', value: 'French' },
   { key: 'Spanish', text: 'Spanish', value: 'Spanish' },
   { key: 'German', text: 'German', value: 'German' },
-  { key: 'Chinese', text: 'Chinese', value: 'Chinese' },
+  { key: 'Chinese', text: 'Chinese', value: 'Chinese' }
 ]
 
 class EquationForm extends Component {
@@ -17,15 +17,16 @@ class EquationForm extends Component {
 
   handleAddition = (e, { value }) => {
     this.setState({
-      options: [{ text: value, value }, ...this.state.options],
+      options: [{ text: value, value }, ...this.state.options]
     })
   }
 
-  handleChange = (e, { value }) => this.setState({ currentValues: value })
+  handleChange = (e, { value }) => {
+    this.setState({ currentValues: value })
+  }
 
   render () {
     const { currentValues } = this.state
-
     return (
       <Form>
         <FormGroup widths='equal'>

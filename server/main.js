@@ -3,8 +3,6 @@ const debug = require('debug')('app:server')
 const webpack = require('webpack')
 const webpackConfig = require('../build/webpack.config')
 const config = require('../config')
-const url = require('url')
-const request = require('request')
 const proxy = require('express-http-proxy')
 
 const app = express()
