@@ -1,1 +1,1 @@
-web: npm run deploy:prod && NODE_ENV=production npm start
+web: npm postinstall script and npm start
