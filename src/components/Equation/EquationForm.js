@@ -24,7 +24,9 @@ class EquationForm extends Component {
     })
   }
 
-  handleChange = (e, { value }) => this.setState({ stateOptions: value })
+  handleChange = (e, { value }) => {
+    this.setState({ stateOptions: value })
+  }
 
   render () {
     const { stateOptions } = this.state
