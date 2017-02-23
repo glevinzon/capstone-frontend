@@ -32,7 +32,7 @@ class EquationList extends Component {
             <TableCell>ei plus bi plus si</TableCell>
             <TableCell>admin</TableCell>
             <TableCell>/</TableCell>
-            <TableCell>No</TableCell>
+            <TableCell>None</TableCell>
           </TableRow>
           <TableRow>
             <TableCell collapsing>
@@ -42,7 +42,7 @@ class EquationList extends Component {
             <TableCell>A equals pie r squared</TableCell>
             <TableCell>admin</TableCell>
             <TableCell>/</TableCell>
-            <TableCell>No</TableCell>
+            <TableCell>None</TableCell>
           </TableRow>
           <TableRow>
             <TableCell collapsing>
@@ -52,7 +52,7 @@ class EquationList extends Component {
             <TableCell>(x1,y1) and (x2,y2)</TableCell>
             <TableCell>admin</TableCell>
             <TableCell>/</TableCell>
-            <TableCell>No</TableCell>
+            <TableCell>None</TableCell>
           </TableRow>
         </TableBody>
 
