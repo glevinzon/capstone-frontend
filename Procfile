@@ -1,1 +1,1 @@
-web: npm run postinstall and babel-node dist/index.html
+web: npm run postinstall && npm start
