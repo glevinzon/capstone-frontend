@@ -1,8 +1,8 @@
 import { CALL_API } from 'redux-api-middleware'
 
-export const CONNECT = 'hp:connect'
-export const CONNECT_SUCCESS = 'hp:connect_success'
-export const CONNECT_FAIL = 'hp:connect_fail'
+export const CONNECT = 'wc:connect'
+export const CONNECT_SUCCESS = 'wc:connect_success'
+export const CONNECT_FAIL = 'wc:connect_fail'
 
 export function connectApi () {
   return {

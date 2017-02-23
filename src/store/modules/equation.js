@@ -1,212 +1,187 @@
 import { CALL_API } from 'redux-api-middleware'
-import { showLoading, hideLoading } from 'react-redux-loading-bar'
 
 // ------------------------------------
 // Constants
 // ------------------------------------
-export const GET_SHOPS = 'ca:shops:get_shops'
-export const GET_SHOPS_SUCCESS = 'ca:shops:get_shops_success'
-export const GET_SHOPS_FAIL = 'ca:shops:get_shops_fail'
-export const CREATE_SHOP = 'ca:shops:create_shop'
-export const CREATE_SHOP_SUCCESS = 'ca:shops:create_shop_success'
-export const CREATE_SHOP_FAIL = 'ca:shops:create_shop_fail'
-export const GET_SHOP = 'ca:shops:get_shop'
-export const GET_SHOP_SUCCESS = 'ca:shops:get_shop_success'
-export const GET_SHOP_FAIL = 'ca:shops:get_shop_fail'
-export const UPDATE_SHOP = 'ca:shops:update_shop'
-export const UPDATE_SHOP_SUCCESS = 'ca:shops:update_shop_success'
-export const UPDATE_SHOP_FAIL = 'ca:shops:update_shop_fail'
+export const GET_EQUATIONS = 'wc:equations:get_equations'
+export const GET_EQUATIONS_SUCCESS = 'wc:equations:get_equations_success'
+export const GET_EQUATIONS_FAIL = 'wc:equations:get_equations_fail'
+export const CREATE_EQUATION = 'wc:equations:create_equation'
+export const CREATE_EQUATION_SUCCESS = 'wc:equations:create_equation_success'
+export const CREATE_EQUATION_FAIL = 'wc:equations:create_equation_fail'
+export const GET_EQUATION = 'wc:equations:get_equation'
+export const GET_EQUATION_SUCCESS = 'wc:equations:get_equation_success'
+export const GET_EQUATION_FAIL = 'wc:equations:get_equation_fail'
+export const UPDATE_EQUATION = 'wc:equations:update_equation'
+export const UPDATE_EQUATION_SUCCESS = 'wc:equations:update_equation_success'
+export const UPDATE_EQUATION_FAIL = 'wc:equations:update_equation_fail'
 
 // ------------------------------------
 // Actions
 // ------------------------------------
-export function getShops () {
+export function getEquations () {
   return (dispatch, getState) => {
-    dispatch(showLoading())
-
-    const { login: { token } } = getState()
-
     return dispatch({
       [CALL_API]: {
-        endpoint: '/api/shops',
+        endpoint: '/api/equations',
         method: 'GET',
         headers: {
-          'Accept': 'application/json',
-          'Authorization': `Bearer ${token}`
+          'Accept': 'application/json'
         },
-        types: [GET_SHOPS, GET_SHOPS_SUCCESS, GET_SHOPS_FAIL]
+        types: [GET_EQUATIONS, GET_EQUATIONS_SUCCESS, GET_EQUATIONS_FAIL]
       }
-    }).then(() => { dispatch(hideLoading()) })
+    })
   }
 }
 
-export function createShop ({ name, address, description }) {
+export function createEquations (data) {
   return (dispatch, getState) => {
-    dispatch(showLoading())
-
-    const { login: { token } } = getState()
-
     return dispatch({
       [CALL_API]: {
-        endpoint: '/api/shops',
+        endpoint: '/api/equations',
         method: 'POST',
         headers: {
           'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
+          'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
-          name,
-          address,
-          description
-        }),
+        body: JSON.stringify(data),
         types: [
-          CREATE_SHOP,
+          CREATE_EQUATION,
           {
-            type: CREATE_SHOP_SUCCESS,
+            type: CREATE_EQUATION_SUCCESS,
             meta: {
               done: true,
               transition: {
                 success: (prevState, nextStatem, res) => {
-                  return { pathname: '/admin' }
+                  return { pathname: '/' }
                 }
               }
             }
           },
-          CREATE_SHOP_FAIL
+          CREATE_EQUATION_FAIL
         ]
       }
-    }).then(() => { dispatch(hideLoading()) })
+    })
   }
 }
 
-export function getShop (shopId) {
+export function getEquation (eqId) {
   return (dispatch, getState) => {
-    dispatch(showLoading())
-
-    const { login: { token } } = getState()
-
     return dispatch({
       [CALL_API]: {
-        endpoint: `/api/shops/${shopId}`,
+        endpoint: `/api/equations/${eqId}`,
         method: 'GET',
         headers: {
-          'Accept': 'application/json',
-          'Authorization': `Bearer ${token}`
+          'Accept': 'application/json'
         },
-        types: [GET_SHOP, GET_SHOP_SUCCESS, GET_SHOP_FAIL]
+        types: [GET_EQUATION, GET_EQUATION_SUCCESS, GET_EQUATION_FAIL]
       }
-    }).then(() => { dispatch(hideLoading()) })
+    })
   }
 }
 
-export function updateShop (data, shopId) {
+export function updateEquation (data, shopId) {
   return (dispatch, getState) => {
-    dispatch(showLoading())
-
-    const { login: { token } } = getState()
-
     return dispatch({
       [CALL_API]: {
-        endpoint: `/api/shops/${shopId}`,
+        endpoint: `/api/equations/${shopId}`,
         method: 'PUT',
         headers: {
           'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify(data),
-        types: [UPDATE_SHOP, UPDATE_SHOP_SUCCESS, UPDATE_SHOP_FAIL]
+        types: [UPDATE_EQUATION, UPDATE_EQUATION_SUCCESS, UPDATE_EQUATION_FAIL]
       }
-    }).then(() => { dispatch(hideLoading()) })
+    })
   }
 }
 
 const emptyErrors = {
-  shopCreationErrors: [],
-  shopUpdateErrors: []
+  equationCreationErrors: [],
+  equationUpdateErrors: []
 }
 
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [GET_SHOPS]: (state) => ({
+  [GET_EQUATIONS]: (state) => ({
     ...state,
-    fetchingShops: true,
+    fetchingEquations: true,
     createSuccess: false,
     updateSuccess: false,
     ...emptyErrors
   }),
-  [GET_SHOPS_SUCCESS]: (state, action) => {
+  [GET_EQUATIONS_SUCCESS]: (state, action) => {
     return {
       ...state,
-      fetchingShops: false,
+      fetchingEquations: false,
       list: action.payload.data
     }
   },
-  [GET_SHOPS_FAIL]: (state, action) => ({
+  [GET_EQUATIONS_FAIL]: (state, action) => ({
     ...state,
-    fetchingShops: false
+    fetchingEquations: false
   }),
-  [CREATE_SHOP]: (state) => ({
+  [CREATE_EQUATION]: (state) => ({
     ...state,
-    creatingShop: true,
+    creatingEquation: true,
     createSuccess: false,
-    createdShop: null,
+    createdEquation: null,
     ...emptyErrors
   }),
-  [CREATE_SHOP_SUCCESS]: (state, action) => {
+  [CREATE_EQUATION_SUCCESS]: (state, action) => {
     return {
       ...state,
-      creatingShop: false,
+      creatingEquation: false,
       createSuccess: true,
-      createdShop: action.payload.data
+      createdEquation: action.payload.data
     }
   },
-  [CREATE_SHOP_FAIL]: (state, action) => ({
+  [CREATE_EQUATION_FAIL]: (state, action) => ({
     ...state,
-    creatingShop: false,
+    creatingEquation: false,
     createSuccess: false,
-    createdShop: null,
-    shopCreationErrors: action.payload.response.errors
+    createdEquation: null,
+    equationCreationErrors: action.payload.response.errors
   }),
-  [GET_SHOP]: (state) => ({
+  [GET_EQUATION]: (state) => ({
     ...state,
-    fetchingShop: true
+    fetchingEquation: true
   }),
-  [GET_SHOP_SUCCESS]: (state, action) => {
+  [GET_EQUATION_SUCCESS]: (state, action) => {
     return {
       ...state,
-      fetchingShop: false,
-      shop: action.payload.data
+      fetchingEquation: false,
+      equation: action.payload.data
     }
   },
-  [GET_SHOP_FAIL]: (state, action) => ({
+  [GET_EQUATION_FAIL]: (state, action) => ({
     ...state,
-    fetchingShop: false
+    fetchingEquation: false
   }),
-  [UPDATE_SHOP]: (state) => ({
+  [UPDATE_EQUATION]: (state) => ({
     ...state,
-    updatingShop: true,
+    updatingEquation: true,
     updateSuccess: false,
-    updatedShop: null,
+    updatedEquation: null,
     ...emptyErrors
   }),
-  [UPDATE_SHOP_SUCCESS]: (state, action) => {
+  [UPDATE_EQUATION_SUCCESS]: (state, action) => {
     return {
       ...state,
-      updatingShop: false,
+      updatingEquation: false,
       updateSuccess: true,
-      updatedShop: action.payload.data
+      updatedEquation: action.payload.data
     }
   },
-  [UPDATE_SHOP_FAIL]: (state, action) => ({
+  [UPDATE_EQUATION_FAIL]: (state, action) => ({
     ...state,
-    updatingShop: false,
+    updatingEquation: false,
     updateSuccess: false,
-    updatedShop: null,
-    shopUpdateErrors: action.payload.response.errors
+    updatedEquation: null,
+    equationUpdateErrors: action.payload.response.errors
   })
 }
 
@@ -214,18 +189,18 @@ const ACTION_HANDLERS = {
 // Reducer
 // ------------------------------------
 const initialState = {
-  fetchingShops: false,
+  fetchingEquations: false,
   list: [],
-  shopCreationErrors: [],
-  shopUpdateErrors: [],
-  createdShop: null,
+  equationCreationErrors: [],
+  equationUpdateErrors: [],
+  createdEquation: null,
   createSuccess: false,
-  creatingShop: false,
-  updatedShop: null,
+  creatingEquation: false,
+  updatedEquation: null,
   updateSuccess: false,
-  updatingShop: false,
-  shop: [],
-  fetchingShop: false
+  updatingEquation: false,
+  equation: [],
+  fetchingEquation: false
 }
 export default function shopsReducer (state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
