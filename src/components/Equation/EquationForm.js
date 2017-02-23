@@ -1,17 +1,17 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react'
 
 class EquationForm extends Component {
-  render() {
+  render () {
     return (
       <div>
 
       </div>
-    );
+    )
   }
 }
 
 EquationForm.propTypes = {
 
-};
+}
 
-export default EquationForm;
+export default EquationForm
