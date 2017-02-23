@@ -14,11 +14,11 @@ import Counter from 'components/Counter'
 
 const mapActionCreators = {
   increment: () => increment(1),
-  doubleAsync
+  doubleAsync,
 }
 
-const mapStateToProps = (state) => ({
-  counter: state.counter
+const mapStateToProps = state => ({
+  counter: state.counter,
 })
 
 /*  Note: mapStateToProps is where you should use `reselect` to create selectors, ie:

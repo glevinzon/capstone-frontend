@@ -1,7 +1,7 @@
 import React from 'react'
 import classes from './Counter.scss'
 
-export const Counter = (props) => (
+export const Counter = props => (
   <div>
     <h2 className={classes.counterContainer}>
       Counter:
@@ -23,7 +23,7 @@ export const Counter = (props) => (
 Counter.propTypes = {
   counter: React.PropTypes.number.isRequired,
   doubleAsync: React.PropTypes.func.isRequired,
-  increment: React.PropTypes.func.isRequired
+  increment: React.PropTypes.func.isRequired,
 }
 
 export default Counter

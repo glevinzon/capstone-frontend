@@ -7,7 +7,7 @@ import _debug from 'debug'
 
 const debug = _debug('app:webpack:config')
 const paths = config.utils_paths
-const {__DEV__, __PROD__, __TEST__} = config.globals
+const { __DEV__, __PROD__, __TEST__ } = config.globals
 
 debug('Create configuration.')
 const webpackConfig = {
@@ -16,22 +16,22 @@ const webpackConfig = {
   devtool: config.compiler_devtool,
   resolve: {
     root: paths.client(),
-    extensions: ['', '.js', '.jsx', '.json']
+    extensions: ['', '.js', '.jsx', '.json'],
   },
-  module: {}
+  module: {},
 }
 // ------------------------------------
 // Entry Points
 // ------------------------------------
 const APP_ENTRY_PATHS = [
-  paths.client('main.js')
+  paths.client('main.js'),
 ]
 
 webpackConfig.entry = {
   app: __DEV__
     ? APP_ENTRY_PATHS.concat(`webpack-hot-middleware/client?path=${config.compiler_public_path}__webpack_hmr`)
     : APP_ENTRY_PATHS,
-  vendor: config.compiler_vendor
+  vendor: config.compiler_vendor,
 }
 
 // ------------------------------------
@@ -40,7 +40,7 @@ webpackConfig.entry = {
 webpackConfig.output = {
   filename: `[name].[${config.compiler_hash_type}].js`,
   path: paths.dist(),
-  publicPath: config.compiler_public_path
+  publicPath: config.compiler_public_path,
 }
 
 // ------------------------------------
@@ -55,9 +55,9 @@ webpackConfig.plugins = [
     filename: 'index.html',
     inject: 'body',
     minify: {
-      collapseWhitespace: true
-    }
-  })
+      collapseWhitespace: true,
+    },
+  }),
 ]
 
 if (__DEV__) {
@@ -75,8 +75,8 @@ if (__DEV__) {
       compress: {
         unused: true,
         dead_code: true,
-        warnings: false
-      }
+        warnings: false,
+      },
     })
   )
 }
@@ -85,7 +85,7 @@ if (__DEV__) {
 if (!__TEST__) {
   webpackConfig.plugins.push(
     new webpack.optimize.CommonsChunkPlugin({
-      names: ['vendor']
+      names: ['vendor'],
     })
   )
 }
@@ -127,12 +127,12 @@ webpackConfig.module.loaders = [{
   query: {
     cacheDirectory: true,
     plugins: ['transform-runtime'],
-    presets: ['es2015', 'react', 'stage-0']
-  }
+    presets: ['es2015', 'react', 'stage-0'],
+  },
 },
 {
   test: /\.json$/,
-  loader: 'json'
+  loader: 'json',
 }]
 
 // ------------------------------------
@@ -164,7 +164,7 @@ if (isUsingCSSModules) {
     BASE_CSS_LOADER,
     'modules',
     'importLoaders=1',
-    'localIdentName=[name]__[local]___[hash:base64:5]'
+    'localIdentName=[name]__[local]___[hash:base64:5]',
   ].join('&')
 
   webpackConfig.module.loaders.push({
@@ -174,8 +174,8 @@ if (isUsingCSSModules) {
       'style',
       cssModulesLoader,
       'postcss',
-      'sass?sourceMap'
-    ]
+      'sass?sourceMap',
+    ],
   })
 
   webpackConfig.module.loaders.push({
@@ -184,8 +184,8 @@ if (isUsingCSSModules) {
     loaders: [
       'style',
       cssModulesLoader,
-      'postcss'
-    ]
+      'postcss',
+    ],
   })
 }
 
@@ -198,8 +198,8 @@ webpackConfig.module.loaders.push({
     'style',
     BASE_CSS_LOADER,
     'postcss',
-    'sass?sourceMap'
-  ]
+    'sass?sourceMap',
+  ],
 })
 webpackConfig.module.loaders.push({
   test: /\.css$/,
@@ -207,15 +207,15 @@ webpackConfig.module.loaders.push({
   loaders: [
     'style',
     BASE_CSS_LOADER,
-    'postcss'
-  ]
+    'postcss',
+  ],
 })
 
 // ------------------------------------
 // Style Configuration
 // ------------------------------------
 webpackConfig.sassLoader = {
-  includePaths: paths.client('styles')
+  includePaths: paths.client('styles'),
 }
 
 webpackConfig.postcss = [
@@ -223,17 +223,17 @@ webpackConfig.postcss = [
     autoprefixer: {
       add: true,
       remove: true,
-      browsers: ['last 2 versions']
+      browsers: ['last 2 versions'],
     },
     discardComments: {
-      removeAll: true
+      removeAll: true,
     },
     discardUnused: false,
     mergeIdents: false,
     reduceIdents: false,
     safe: true,
-    sourcemap: true
-  })
+    sourcemap: true,
+  }),
 ]
 
 // File loaders
@@ -257,8 +257,8 @@ webpackConfig.module.loaders.push(
 // http://stackoverflow.com/questions/34133808/webpack-ots-parsing-error-loading-fonts/34133809#34133809
 if (!__DEV__) {
   debug('Apply ExtractTextPlugin to CSS loaders.')
-  webpackConfig.module.loaders.filter((loader) =>
-    loader.loaders && loader.loaders.find((name) => /css/.test(name.split('?')[0]))
+  webpackConfig.module.loaders.filter(loader =>
+    loader.loaders && loader.loaders.find(name => /css/.test(name.split('?')[0]))
   ).forEach((loader) => {
     const [first, ...rest] = loader.loaders
     loader.loader = ExtractTextPlugin.extract(first, rest.join('!'))
@@ -267,7 +267,7 @@ if (!__DEV__) {
 
   webpackConfig.plugins.push(
     new ExtractTextPlugin('[name].[contenthash].css', {
-      allChunks: true
+      allChunks: true,
     })
   )
 }

@@ -41,7 +41,7 @@ const config = {
   compiler_stats           : {
     chunks : false,
     chunkModules : false,
-    colors : true
+    colors : true,
   },
   compiler_vendor : [
     'babel-polyfill',
@@ -50,7 +50,7 @@ const config = {
     'react-redux',
     'react-router',
     'react-router-redux',
-    'redux'
+    'redux',
   ],
 
   // ----------------------------------
@@ -58,8 +58,8 @@ const config = {
   // ----------------------------------
   coverage_reporters : [
     { type : 'text-summary' },
-    { type : 'lcov', dir : 'coverage' }
-  ]
+    { type : 'lcov', dir : 'coverage' },
+  ],
 }
 
 /************************************************
@@ -77,7 +77,7 @@ Edit at Your Own Risk
 // N.B.: globals added here must _also_ be added to .eslintrc
 config.globals = {
   'process.env'  : {
-    'NODE_ENV' : JSON.stringify(config.env)
+    'NODE_ENV' : JSON.stringify(config.env),
   },
   'NODE_ENV'     : config.env,
   '__DEV__'      : config.env === 'development',
@@ -85,7 +85,7 @@ config.globals = {
   '__TEST__'     : config.env === 'test',
   '__DEBUG__'    : config.env === 'development' && !argv.no_debug,
   '__COVERAGE__' : !argv.watch && config.env === 'test',
-  '__BASENAME__' : JSON.stringify(process.env.BASENAME || '')
+  '__BASENAME__' : JSON.stringify(process.env.BASENAME || ''),
 }
 
 // ------------------------------------
@@ -114,7 +114,7 @@ const base = (...args) =>
 config.utils_paths = {
   base   : base,
   client : base.bind(null, config.dir_client),
-  dist   : base.bind(null, config.dir_dist)
+  dist   : base.bind(null, config.dir_dist),
 }
 
 // ========================================================
