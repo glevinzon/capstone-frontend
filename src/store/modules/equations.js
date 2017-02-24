@@ -34,14 +34,13 @@ export function getEquations () {
   }
 }
 
-export function createEquations (data) {
+export function createEquation (data) {
   return (dispatch, getState) => {
     return dispatch({
       [CALL_API]: {
         endpoint: '/api/equations',
         method: 'POST',
         headers: {
-          'Accept': 'application/json',
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(data),
