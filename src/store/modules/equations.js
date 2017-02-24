@@ -19,11 +19,12 @@ export const UPDATE_EQUATION_FAIL = 'wc:equations:update_equation_fail'
 // ------------------------------------
 // Actions
 // ------------------------------------
-export function getEquations () {
+export function getEquations (filter = null, page = 1, count = 10) {
   return (dispatch, getState) => {
+    let endpoint = `/api/equations?filter=${filter}&page=${page}&count=${count}`
     return dispatch({
       [CALL_API]: {
-        endpoint: '/api/equations',
+        endpoint,
         method: 'GET',
         headers: {
           'Accept': 'application/json'
@@ -189,7 +190,7 @@ const ACTION_HANDLERS = {
 // ------------------------------------
 const initialState = {
   fetchingEquations: false,
-  list: [],
+  list: {},
   equationCreationErrors: [],
   equationUpdateErrors: [],
   createdEquation: null,
@@ -198,7 +199,7 @@ const initialState = {
   updatedEquation: null,
   updateSuccess: false,
   updatingEquation: false,
-  equation: [],
+  equation: {},
   fetchingEquation: false
 }
 export default function equationsReducer (state = initialState, action) {

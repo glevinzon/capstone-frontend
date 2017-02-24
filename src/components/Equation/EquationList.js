@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import { Button, Checkbox, Icon, Table } from 'semantic-ui-react'
+import { Icon, Label, Menu, Table } from 'semantic-ui-react'
 
 const TableHeader = Table.Header
 const TableRow = Table.Row
@@ -7,64 +7,73 @@ const TableHeaderCell = Table.HeaderCell
 const TableBody = Table.Body
 const TableCell = Table.Cell
 const TableFooter = Table.Footer
+const MenuItem = Menu.Item
 
 class EquationList extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      page: 1,
+      count: 15
+    }
+  }
+
+  handlePaginationClick = (type) => {
+    let { page, count } = this.state
+    if (type === 'prev') {
+      if (page === 1) {
+        return
+      }
+      page -= 1
+    } else {
+      if (this.props.equations.list.length === 0) {
+        return
+      }
+      page += 1
+    }
+    this.props.getEquations('paginate', page, count)
+    this.setState({page})
+  }
+
   render () {
+    console.log(this.props)
+    let { list } = this.props
+    let { fetchingEquations } = this.props.equations
+    let data = list.data !== undefined ? list.data : []
     return (
-      <Table compact celled definition>
+      <Table celled>
         <TableHeader>
           <TableRow>
-            <TableHeaderCell />
             <TableHeaderCell>Name</TableHeaderCell>
             <TableHeaderCell>Note</TableHeaderCell>
-            <TableHeaderCell>User</TableHeaderCell>
-            <TableHeaderCell>URL</TableHeaderCell>
-            <TableHeaderCell>Tags</TableHeaderCell>
+            <TableHeaderCell>AudioUrl</TableHeaderCell>
           </TableRow>
         </TableHeader>
 
         <TableBody>
-          <TableRow>
-            <TableCell collapsing>
-              <Checkbox slider />
-            </TableCell>
-            <TableCell>a + b + c</TableCell>
-            <TableCell>ei plus bi plus si</TableCell>
-            <TableCell>admin</TableCell>
-            <TableCell>/</TableCell>
-            <TableCell>None</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell collapsing>
-              <Checkbox slider />
-            </TableCell>
-            <TableCell>Circle</TableCell>
-            <TableCell>A equals pie r squared</TableCell>
-            <TableCell>admin</TableCell>
-            <TableCell>/</TableCell>
-            <TableCell>None</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell collapsing>
-              <Checkbox slider />
-            </TableCell>
-            <TableCell>Distance</TableCell>
-            <TableCell>(x1,y1) and (x2,y2)</TableCell>
-            <TableCell>admin</TableCell>
-            <TableCell>/</TableCell>
-            <TableCell>None</TableCell>
-          </TableRow>
+        {data.map(value => {
+          return (
+            <TableRow>
+              <TableCell>{value.name}</TableCell>
+              <TableCell>{value.note}</TableCell>
+              <TableCell>{value.audioUrl}</TableCell>
+            </TableRow>
+          )
+        })}
+
         </TableBody>
 
-        <TableFooter fullWidth>
+        <TableFooter>
           <TableRow>
-            <TableHeaderCell />
             <TableHeaderCell colSpan='5'>
-              <Button floated='right' icon labelPosition='left' primary size='small'>
-                <Icon name='user' /> Add User
-              </Button>
-              <Button size='small'>Approve</Button>
-              <Button disabled size='small'>Approve All</Button>
+              <Menu floated='right' pagination>
+                <MenuItem onClick={e => this.handlePaginationClick('prev')} disabled={this.state.page < 2 || fetchingEquations} as='a' icon>
+                  <Icon name='left chevron' />
+                </MenuItem>
+                <MenuItem onClick={e => this.handlePaginationClick('next')} disabled={this.props.equations.list.length === 0 || fetchingEquations} as='a' icon>
+                  <Icon name='right chevron' />
+                </MenuItem>
+              </Menu>
             </TableHeaderCell>
           </TableRow>
         </TableFooter>
@@ -74,7 +83,8 @@ class EquationList extends Component {
 }
 
 EquationList.propTypes = {
-
+  getEquations: PropTypes.func,
+  equations: PropTypes.object
 }
 
 export default EquationList

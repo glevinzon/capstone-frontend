@@ -17,6 +17,7 @@ class componentName extends Component {
       errors: [],
       isLoading: false
     }
+    this.props.getEquations('paginate', 1, 15)
   }
 
   componentDidMount () {
@@ -62,6 +63,7 @@ class componentName extends Component {
   }
   render () {
     const { username, activeItem, active } = this.state
+    let { list } = this.props.equations
     return (
       <div>
         <Dimmer
@@ -92,7 +94,7 @@ class componentName extends Component {
           </MenuMenu>
         </Menu>
         <Segment>
-          {activeItem === 'browse' ? <EquationList {...this.props} /> : null}
+          {activeItem === 'browse' ? <EquationList list={list} {...this.props} /> : null}
           {activeItem === 'submit' ? <EquationForm username={username} {...this.props} /> : null}
         </Segment>
 
