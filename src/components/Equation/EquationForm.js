@@ -43,7 +43,7 @@ class EquationForm extends Component {
   }
 
   handleChange = (e, { value }) => {
-    this.setState({ currentValues: value})
+    this.setState({ currentValues: value })
   }
 
   onTextChange = (e) => {
