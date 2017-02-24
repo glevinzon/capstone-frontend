@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react'
-import { Form, Input, Dropdown } from 'semantic-ui-react'
+import { Button, Form, Input, Dropdown } from 'semantic-ui-react'
+import validateInput from 'utils/validators/equation'
 
 const FormGroup = Form.Group
 const FormField = Form.Field
@@ -9,33 +10,74 @@ const options = [
   { key: 'French', text: 'French', value: 'French' },
   { key: 'Spanish', text: 'Spanish', value: 'Spanish' },
   { key: 'German', text: 'German', value: 'German' },
-  { key: 'Chinese', text: 'Chinese', value: 'Chinese' },
+  { key: 'Chinese', text: 'Chinese', value: 'Chinese' }
 ]
 
 class EquationForm extends Component {
-  state = { options }
+  constructor (props) {
+    super(props)
+    this.state = {
+      options: options,
+      username: props.username,
+      name: '',
+      note: '',
+      isLoading: false,
+      errors: {}
+    }
+  }
+
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.equations.creatingShop) {
+      this.setState({ isLoading: true })
+    }
+  }
 
   handleAddition = (e, { value }) => {
     this.setState({
-      options: [{ text: value, value }, ...this.state.options],
+      options: [{ text: value, value }, ...this.state.options]
     })
   }
 
-  handleChange = (e, { value }) => this.setState({ currentValues: value })
+  handleChange = (e, { value }) => {
+    this.setState({ currentValues: value})
+  }
+
+  onTextChange = (e) => {
+    this.setState({ [e.target.name]: e.target.value })
+  }
+
+  isValid = (data) => {
+    const { errors, isValid } = validateInput(data)
+
+    if (!isValid) {
+      this.setState({ errors, isLoading: false })
+    }
+
+    return isValid
+  }
+
+  onSubmit = (e) => {
+    e.preventDefault()
+    let data = this.state
+    console.log(data)
+    if (this.isValid(data)) {
+      this.setState({ errors: {}, isLoading: true })
+      this.props.createEquation(data)
+    }
+  }
 
   render () {
     const { currentValues } = this.state
-
     return (
-      <Form>
+      <Form onSubmit={this.onSubmit}>
         <FormGroup widths='equal'>
           <FormField>
             <label>Equation</label>
-            <Input placeholder='Name' />
+            <Input placeholder='Name' name='name' value={this.state.name} onChange={this.onTextChange} />
           </FormField>
           <FormField>
             <label>Note</label>
-            <Input placeholder='Description' />
+            <Input placeholder='Description' name='note' value={this.state.note} onChange={this.onTextChange} />
           </FormField>
           <FormField>
             <label>Tags</label>
@@ -52,6 +94,7 @@ class EquationForm extends Component {
               onChange={this.handleChange}
             />
           </FormField>
+          <Button type='submit'>Submit</Button>
         </FormGroup>
       </Form>
     )
@@ -59,7 +102,7 @@ class EquationForm extends Component {
 }
 
 EquationForm.propTypes = {
-
+  createEquation: PropTypes.func
 }
 
 export default EquationForm
