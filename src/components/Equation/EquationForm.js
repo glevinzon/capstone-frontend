@@ -59,7 +59,6 @@ class EquationForm extends Component {
   onSubmit = (e) => {
     e.preventDefault()
     let data = this.state
-    console.log(data)
     if (this.isValid(data)) {
       this.setState({ errors: {}, isLoading: true })
       this.props.createEquation(data)
