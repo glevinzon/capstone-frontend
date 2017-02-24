@@ -27,7 +27,6 @@ class EquationForm extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    console.log(nextProps)
     if (nextProps.equations.creatingShop) {
       this.setState({ isLoading: true })
     }

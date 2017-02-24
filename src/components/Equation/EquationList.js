@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import { Icon, Label, Menu, Table } from 'semantic-ui-react'
+import { Icon, Dimmer, Loader, Menu, Table } from 'semantic-ui-react'
 
 const TableHeader = Table.Header
 const TableRow = Table.Row
@@ -14,7 +14,21 @@ class EquationList extends Component {
     super(props)
     this.state = {
       page: 1,
-      count: 15
+      count: 15,
+      active: false
+    }
+  }
+
+  componentWillReceiveProps (nextProps) {
+    let {fetchingEquations} = nextProps.equations
+    if (fetchingEquations) {
+      this.setState({
+        active: true
+      })
+    } else {
+      this.setState({
+        active: false
+      })
     }
   }
 
@@ -36,12 +50,14 @@ class EquationList extends Component {
   }
 
   render () {
-    console.log(this.props)
     let { list } = this.props
     let { fetchingEquations } = this.props.equations
     let data = list.data !== undefined ? list.data : []
     return (
       <Table celled>
+        <Dimmer active={this.state.active}>
+          <Loader size='large' content='Loading' />
+        </Dimmer>
         <TableHeader>
           <TableRow>
             <TableHeaderCell>Name</TableHeaderCell>

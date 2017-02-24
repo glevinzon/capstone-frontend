@@ -37,7 +37,10 @@ class componentName extends Component {
     : this.setState({ active: false })
   }
 
-  handleItemClick = (e, { name }) => this.setState({ activeItem: name })
+  handleItemClick = (e, { name }) => {
+    this.setState({ activeItem: name })
+    this.props.getEquations('paginate', 1, 15)
+  }
 
   onTextChange = (e) => {
     this.setState({ [e.target.name]: e.target.value })
