@@ -71,7 +71,7 @@ class EquationForm extends Component {
   render () {
     const { currentValues, isLoading } = this.state
     return (
-      <div>
+      <div className='ui container'>
         <Dimmer active={isLoading}>
           <Loader size='large'>Loading</Loader>
         </Dimmer>
@@ -100,7 +100,7 @@ class EquationForm extends Component {
                 onChange={this.handleChange}
               />
             </FormField>
-            <Button type='submit'>Submit</Button>
+            <Button positive type='submit'>Submit</Button>
           </FormGroup>
         </Form>
       </div>

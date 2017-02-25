@@ -81,13 +81,13 @@ class componentName extends Component {
                   <FormField inline>
                     <Input placeholder='Username' name='username' value={this.state.username} onChange={this.onTextChange} />
                   </FormField>
-                  <Button type='submit'>Submit</Button>
+                  <Button positive type='submit'>Submit</Button>
                 </Form>
               </Grid.Column>
             </Grid>
           </div>
         </Dimmer>
-        <Menu pointing>
+        <Menu className='ui container' pointing>
           <MenuItem name='browse' active={activeItem === 'browse'} onClick={this.handleItemClick} />
           <MenuItem name='submit' active={activeItem === 'submit'} onClick={this.handleItemClick} />
           <MenuMenu position='right'>

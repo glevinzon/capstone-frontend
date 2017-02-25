@@ -53,8 +53,8 @@ class EquationList extends Component {
     let { list } = this.props
     let { fetchingEquations } = this.props.equations
     let data = list.data !== undefined ? list.data : []
-    return (
-      <Table celled>
+    return (<div className='ui container'>
+      <Table color={'green'} celled>
         <Dimmer active={this.state.active}>
           <Loader size='large' content='Loading' />
         </Dimmer>
@@ -94,6 +94,7 @@ class EquationList extends Component {
           </TableRow>
         </TableFooter>
       </Table>
+      </div>
     )
   }
 }
