@@ -40,7 +40,7 @@ class EquationList extends Component {
       }
       page -= 1
     } else {
-      if (this.props.equations.list.length === 0) {
+      if (this.props.equations.list.equations.data.length === 0) {
         return
       }
       page += 1
@@ -53,47 +53,48 @@ class EquationList extends Component {
     let { list } = this.props
     let { fetchingEquations } = this.props.equations
     let data = list.data !== undefined ? list.data : []
-    return (<div className='ui container'>
-      <Table color={'green'} celled>
-        <Dimmer active={this.state.active}>
-          <Loader size='large' content='Loading' />
-        </Dimmer>
-        <TableHeader>
-          <TableRow>
-            <TableHeaderCell>Name</TableHeaderCell>
-            <TableHeaderCell>Note</TableHeaderCell>
-            <TableHeaderCell>AudioUrl</TableHeaderCell>
-          </TableRow>
-        </TableHeader>
-
-        <TableBody>
-        {data.map(value => {
-          return (
+    return (
+      <div className='ui container'>
+        <Table color={'green'} celled>
+          <Dimmer active={this.state.active}>
+            <Loader size='large' content='Loading' />
+          </Dimmer>
+          <TableHeader>
             <TableRow>
-              <TableCell>{value.name}</TableCell>
-              <TableCell>{value.note}</TableCell>
-              <TableCell>{value.audioUrl}</TableCell>
+              <TableHeaderCell>Name</TableHeaderCell>
+              <TableHeaderCell>Note</TableHeaderCell>
+              <TableHeaderCell>AudioUrl</TableHeaderCell>
             </TableRow>
-          )
-        })}
+          </TableHeader>
 
-        </TableBody>
+          <TableBody>
+          {data.map(value => {
+            return (
+              <TableRow>
+                <TableCell>{value.name}</TableCell>
+                <TableCell>{value.note}</TableCell>
+                <TableCell>{value.audioUrl}</TableCell>
+              </TableRow>
+            )
+          })}
 
-        <TableFooter>
-          <TableRow>
-            <TableHeaderCell colSpan='5'>
-              <Menu floated='right' pagination>
-                <MenuItem onClick={e => this.handlePaginationClick('prev')} disabled={this.state.page < 2 || fetchingEquations} as='a' icon>
-                  <Icon name='left chevron' />
-                </MenuItem>
-                <MenuItem onClick={e => this.handlePaginationClick('next')} disabled={this.props.equations.list.length === 0 || fetchingEquations} as='a' icon>
-                  <Icon name='right chevron' />
-                </MenuItem>
-              </Menu>
-            </TableHeaderCell>
-          </TableRow>
-        </TableFooter>
-      </Table>
+          </TableBody>
+
+          <TableFooter>
+            <TableRow>
+              <TableHeaderCell colSpan='5'>
+                <Menu floated='right' pagination>
+                  <MenuItem onClick={e => this.handlePaginationClick('prev')} disabled={this.state.page < 2 || fetchingEquations} as='a' icon>
+                    <Icon name='left chevron' />
+                  </MenuItem>
+                  <MenuItem onClick={e => this.handlePaginationClick('next')} disabled={this.props.equations.list.equations.data.length === 0 || fetchingEquations} as='a' icon>
+                    <Icon name='right chevron' />
+                  </MenuItem>
+                </Menu>
+              </TableHeaderCell>
+            </TableRow>
+          </TableFooter>
+        </Table>
       </div>
     )
   }

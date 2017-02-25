@@ -3,6 +3,8 @@ import EquationList from './EquationList'
 import EquationForm from './EquationForm'
 import { Dimmer, Button, Segment, Form, Input, Menu, Grid } from 'semantic-ui-react'
 import validateInput from 'utils/validators/username'
+var empty = require('is-empty')
+var _ = require('lodash')
 
 const MenuItem = Menu.Item
 const MenuMenu = Menu.Menu
@@ -64,9 +66,11 @@ class componentName extends Component {
       this.handleClose()
     }
   }
+
   render () {
     const { username, activeItem, active } = this.state
     let { list } = this.props.equations
+
     return (
       <div>
         <Dimmer
@@ -97,8 +101,8 @@ class componentName extends Component {
           </MenuMenu>
         </Menu>
         <Segment>
-          {activeItem === 'browse' ? <EquationList list={list} {...this.props} /> : null}
-          {activeItem === 'submit' ? <EquationForm username={username} {...this.props} /> : null}
+          {activeItem === 'browse' && !empty(list) ? <EquationList list={list.equations} {...this.props} /> : null}
+          {activeItem === 'submit' && !empty(list) ? <EquationForm tags={list.tags} username={username} {...this.props} /> : null}
         </Segment>
 
       </div>

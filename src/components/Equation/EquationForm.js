@@ -1,29 +1,32 @@
 import React, { Component, PropTypes } from 'react'
-import { Button, Form, Input, Dropdown, Dimmer, Loader} from 'semantic-ui-react'
+import { Button, Form, Input, Dropdown, Dimmer, Loader } from 'semantic-ui-react'
 import validateInput from 'utils/validators/equation'
 
 const FormGroup = Form.Group
 const FormField = Form.Field
 
-const options = [
-  { key: 'English', text: 'English', value: 'English' },
-  { key: 'French', text: 'French', value: 'French' },
-  { key: 'Spanish', text: 'Spanish', value: 'Spanish' },
-  { key: 'German', text: 'German', value: 'German' },
-  { key: 'Chinese', text: 'Chinese', value: 'Chinese' }
-]
-
 class EquationForm extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      options: options,
+      options: [],
       username: props.username,
       name: '',
       note: '',
       isLoading: false,
       errors: {}
     }
+  }
+
+  componentWillMount () {
+    let {tags} = this.props
+    let options = []
+
+    tags.map(value => {
+      options.push({ key: value.name, text: value.name, value: value.name })
+    })
+
+    this.setState({options: options})
   }
 
   componentWillReceiveProps (nextProps) {
@@ -109,7 +112,8 @@ class EquationForm extends Component {
 }
 
 EquationForm.propTypes = {
-  createEquation: PropTypes.func
+  createEquation: PropTypes.func,
+  tags: PropTypes.array
 }
 
 export default EquationForm
