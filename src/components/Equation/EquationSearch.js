@@ -7,15 +7,15 @@ class EquationSearch extends Component {
     super(props)
     this.tags = props.equations.list.tags.map(tag => ({
       title: tag.name,
-      description: tag.name
+      description: 'tag'
     }))
     this.equationNames = props.equations.list.equations.data.map(eq => ({
       title: eq.name,
-      description: eq.note
+      description: 'equation'
     }))
     this.equationNotes = props.equations.list.equations.data.map(eq => ({
       title: eq.note,
-      description: eq.name
+      description: 'note'
     }))
 
     this.source = this.tags.concat(this.equationNames).concat(this.equationNotes)
