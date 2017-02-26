@@ -50,8 +50,6 @@ class EquationList extends Component {
   }
 
   render () {
-    console.log('TAGS', this.props.tags)
-    console.log('RECORDS', this.props.records)
     let { list, tags, records } = this.props
     let { fetchingEquations } = this.props.equations
     let data = list.data !== undefined ? list.data : []
@@ -120,7 +118,10 @@ class EquationList extends Component {
 
 EquationList.propTypes = {
   getEquations: PropTypes.func,
-  equations: PropTypes.object
+  equations: PropTypes.object,
+  list: PropTypes.object,
+  tags: PropTypes.object,
+  records: PropTypes.object
 }
 
 export default EquationList
