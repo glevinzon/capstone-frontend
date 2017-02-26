@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import { Button, Form, Input, Dropdown, Dimmer, Loader } from 'semantic-ui-react'
+import { Button, Form, Input, Dropdown } from 'semantic-ui-react'
 import validateInput from 'utils/validators/equation'
 
 const FormGroup = Form.Group
@@ -75,10 +75,7 @@ class EquationForm extends Component {
     const { currentValues, isLoading } = this.state
     return (
       <div className='ui container'>
-        <Dimmer active={isLoading}>
-          <Loader size='large'>Loading</Loader>
-        </Dimmer>
-        <Form onSubmit={this.onSubmit}>
+        <Form loading={isLoading} onSubmit={this.onSubmit}>
           <FormGroup widths='equal'>
             <FormField>
               <label>Equation</label>

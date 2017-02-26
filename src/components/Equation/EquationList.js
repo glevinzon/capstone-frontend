@@ -74,7 +74,7 @@ class EquationList extends Component {
             return (
               <TableRow>
                 <TableCell collapsing>
-                  <Checkbox toggle checked={value.active} />
+                  <Checkbox toggle readOnly checked={value.active} />
                 </TableCell>
                 <TableCell>{value.name}</TableCell>
                 <TableCell>{value.note}</TableCell>
