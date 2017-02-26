@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react'
 import _ from 'lodash'
-import faker from 'faker'
 import { Search, Grid, Header } from 'semantic-ui-react'
 
 class EquationSearch extends Component {
@@ -64,7 +63,7 @@ class EquationSearch extends Component {
 }
 
 EquationSearch.propTypes = {
-
+  equations: PropTypes.object
 }
 
 export default EquationSearch
