@@ -111,7 +111,8 @@ class componentName extends Component {
 }
 
 componentName.propTypes = {
-
+  getEquations: PropTypes.func,
+  equations: PropTypes.object
 }
 
 export default componentName
