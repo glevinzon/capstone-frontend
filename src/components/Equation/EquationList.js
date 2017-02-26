@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import { Icon, Dimmer, Loader, Menu, Table, Label } from 'semantic-ui-react'
+import { Icon, Dimmer, Loader, Menu, Table, Label, Checkbox } from 'semantic-ui-react'
 
 const TableHeader = Table.Header
 const TableRow = Table.Row
@@ -61,6 +61,7 @@ class EquationList extends Component {
           </Dimmer>
           <TableHeader>
             <TableRow>
+              <TableHeaderCell>Active</TableHeaderCell>
               <TableHeaderCell>Name</TableHeaderCell>
               <TableHeaderCell>Note</TableHeaderCell>
               <TableHeaderCell>AudioUrl</TableHeaderCell>
@@ -72,6 +73,9 @@ class EquationList extends Component {
           {data.map(value => {
             return (
               <TableRow>
+                <TableCell collapsing>
+                  <Checkbox toggle checked={value.active} />
+                </TableCell>
                 <TableCell>{value.name}</TableCell>
                 <TableCell>{value.note}</TableCell>
                 <TableCell>{value.audioUrl}</TableCell>
