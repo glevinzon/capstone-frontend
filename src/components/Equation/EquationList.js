@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import { Icon, Dimmer, Loader, Menu, Table, Label, Checkbox } from 'semantic-ui-react'
+import { Icon, Dimmer, Loader, Menu, Table, Label, Checkbox, Button, Modal, Header } from 'semantic-ui-react'
 
 const TableHeader = Table.Header
 const TableRow = Table.Row
@@ -8,6 +8,9 @@ const TableBody = Table.Body
 const TableCell = Table.Cell
 const TableFooter = Table.Footer
 const MenuItem = Menu.Item
+const ButtonGroup = Button.Group
+const ModalContent = Modal.Content
+const ModalActions = Modal.Actions
 
 class EquationList extends Component {
   constructor (props) {
@@ -15,20 +18,27 @@ class EquationList extends Component {
     this.state = {
       page: 1,
       count: 15,
-      active: false
+      active: false,
+      id: null,
+      isOpen: false
     }
   }
 
   componentWillReceiveProps (nextProps) {
-    let {fetchingEquations} = nextProps.equations
-    if (fetchingEquations) {
+    let { page, count } = this.state
+    let {fetchingEquations, deletingEquation, deleteEquationSuccess} = nextProps.equations
+    if (fetchingEquations || deletingEquation) {
       this.setState({
-        active: true
+        active: true,
+        isOpen: false
       })
     } else {
       this.setState({
         active: false
       })
+    }
+    if (deleteEquationSuccess) {
+      this.props.getEquations('paginate', page, count)
     }
   }
 
@@ -49,12 +59,38 @@ class EquationList extends Component {
     this.setState({page})
   }
 
+  handleDeleteClick = (eqId = null) => {
+    let {isOpen} = this.state
+    let {id} = this.state
+    if (!isOpen) {
+      this.setState({id: eqId, isOpen: true})
+    } else {
+      if (id) {
+        this.props.deleteEquation(id)
+      }
+    }
+  }
+
   render () {
     let { list, tags, records } = this.props
     let { fetchingEquations } = this.props.equations
     let data = list.data !== undefined ? list.data : []
     return (
       <div className='ui container'>
+        <Modal open={this.state.isOpen} basic size='small'>
+          <Header icon='remove' content='Delete Equation' />
+          <ModalContent>
+            <p>Are you sure to delete this record?</p>
+          </ModalContent>
+          <ModalActions>
+            <Button onClick={e => this.setState({isOpen: false})} basic color='red' inverted>
+              <Icon name='remove' /> No
+            </Button>
+            <Button onClick={this.handleDeleteClick} color='green' inverted>
+              <Icon name='checkmark' /> Yes
+            </Button>
+          </ModalActions>
+        </Modal>
         <Table color={'green'} celled>
           <Dimmer active={this.state.active}>
             <Loader size='large' content='Loading' />
@@ -66,6 +102,7 @@ class EquationList extends Component {
               <TableHeaderCell>Note</TableHeaderCell>
               <TableHeaderCell>AudioUrl</TableHeaderCell>
               <TableHeaderCell>Tags</TableHeaderCell>
+              <TableHeaderCell />
             </TableRow>
           </TableHeader>
 
@@ -94,6 +131,13 @@ class EquationList extends Component {
                     )
                   }
                 })}</TableCell>
+                <TableCell>
+                  <ButtonGroup>
+                    <Button positive>Edit</Button>
+                    <Button.Or />
+                    <Button negative onClick={e => this.handleDeleteClick(value.id)}>Delete</Button>
+                  </ButtonGroup>
+                </TableCell>
               </TableRow>
             )
           })}
@@ -102,7 +146,7 @@ class EquationList extends Component {
 
           <TableFooter>
             <TableRow>
-              <TableHeaderCell colSpan='5'>
+              <TableHeaderCell colSpan='6'>
                 <Menu floated='right' pagination>
                   <MenuItem onClick={e => this.handlePaginationClick('prev')} disabled={this.state.page < 2 || fetchingEquations} as='a' icon>
                     <Icon name='left chevron' />
@@ -124,8 +168,8 @@ EquationList.propTypes = {
   getEquations: PropTypes.func,
   equations: PropTypes.object,
   list: PropTypes.object,
-  tags: PropTypes.object,
-  records: PropTypes.object
+  tags: PropTypes.array,
+  records: PropTypes.array
 }
 
 export default EquationList

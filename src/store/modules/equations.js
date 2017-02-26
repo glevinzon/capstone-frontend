@@ -15,6 +15,9 @@ export const GET_EQUATION_FAIL = 'wc:equations:get_equation_fail'
 export const UPDATE_EQUATION = 'wc:equations:update_equation'
 export const UPDATE_EQUATION_SUCCESS = 'wc:equations:update_equation_success'
 export const UPDATE_EQUATION_FAIL = 'wc:equations:update_equation_fail'
+export const DELETE_EQUATION = 'wc:equation:delete_equation'
+export const DELETE_EQUATION_SUCCESS = 'wc:equation:delete_equation_success'
+export const DELETE_EQUATION_FAIL = 'wc:equation:delete_equation_fail'
 
 // ------------------------------------
 // Actions
@@ -97,6 +100,21 @@ export function updateEquation (data, eqId) {
   }
 }
 
+export function deleteEquation (eqId) {
+  return (dispatch, getState) => {
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `/api/equation/${eqId}`,
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        types: [DELETE_EQUATION, DELETE_EQUATION_SUCCESS, DELETE_EQUATION_FAIL]
+      }
+    })
+  }
+}
+
 const emptyErrors = {
   equationCreationErrors: [],
   equationUpdateErrors: []
@@ -111,6 +129,7 @@ const ACTION_HANDLERS = {
     fetchingEquations: true,
     createSuccess: false,
     updateSuccess: false,
+    deleteEquationSuccess: false,
     ...emptyErrors
   }),
   [GET_EQUATIONS_SUCCESS]: (state, action) => {
@@ -182,6 +201,26 @@ const ACTION_HANDLERS = {
     updateSuccess: false,
     updatedEquation: null,
     equationUpdateErrors: action.payload.response.errors
+  }),
+  [DELETE_EQUATION]: (state) => ({
+    ...state,
+    deletingEquation: true,
+    deleteEquationSuccess: false,
+    deleteEquationResponse: null,
+    deleteEquationErrors: []
+  }),
+  [DELETE_EQUATION_SUCCESS]: (state, action) => ({
+    ...state,
+    deletingEquation: false,
+    deleteEquationSuccess: true,
+    deleteEquationResponse: action.payload.data
+  }),
+  [DELETE_EQUATION_FAIL]: (state, action) => ({
+    ...state,
+    deletingEquation: false,
+    deleteEquationSuccess: false,
+    deleteEquationResponse: null,
+    deleteEquationErrors: action.payload.response.errors
   })
 }
 
@@ -200,7 +239,11 @@ const initialState = {
   updateSuccess: false,
   updatingEquation: false,
   equation: {},
-  fetchingEquation: false
+  fetchingEquation: false,
+  deletingEquation: false,
+  deleteEquationSuccess: false,
+  deleteEquationResponse: null,
+  deleteEquationErrors: []
 }
 export default function equationsReducer (state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]

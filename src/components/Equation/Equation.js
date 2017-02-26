@@ -68,6 +68,7 @@ class componentName extends Component {
   }
 
   render () {
+    console.log(this.props)
     const { username, activeItem, active } = this.state
     let { list } = this.props.equations
 

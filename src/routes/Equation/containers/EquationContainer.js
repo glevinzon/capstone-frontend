@@ -1,12 +1,13 @@
 import { connect } from 'react-redux'
 import Equation from 'components/Equation'
-import { getEquations, createEquation, getEquation, updateEquation } from 'store/modules/equations'
+import { getEquations, createEquation, getEquation, updateEquation, deleteEquation } from 'store/modules/equations'
 
 const mapActionCreators = {
   getEquations,
   createEquation,
   getEquation,
-  updateEquation
+  updateEquation,
+  deleteEquation
 }
 
 const mapStateToProps = (state) => ({
