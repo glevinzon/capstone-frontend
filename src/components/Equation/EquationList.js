@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import { Icon, Dimmer, Loader, Menu, Table } from 'semantic-ui-react'
+import { Icon, Dimmer, Loader, Menu, Table, Label } from 'semantic-ui-react'
 
 const TableHeader = Table.Header
 const TableRow = Table.Row
@@ -50,7 +50,9 @@ class EquationList extends Component {
   }
 
   render () {
-    let { list } = this.props
+    console.log('TAGS', this.props.tags)
+    console.log('RECORDS', this.props.records)
+    let { list, tags, records } = this.props
     let { fetchingEquations } = this.props.equations
     let data = list.data !== undefined ? list.data : []
     return (
@@ -64,6 +66,7 @@ class EquationList extends Component {
               <TableHeaderCell>Name</TableHeaderCell>
               <TableHeaderCell>Note</TableHeaderCell>
               <TableHeaderCell>AudioUrl</TableHeaderCell>
+              <TableHeaderCell>Tags</TableHeaderCell>
             </TableRow>
           </TableHeader>
 
@@ -74,6 +77,21 @@ class EquationList extends Component {
                 <TableCell>{value.name}</TableCell>
                 <TableCell>{value.note}</TableCell>
                 <TableCell>{value.audioUrl}</TableCell>
+                <TableCell>{records.map(record => {
+                  if (record.eqId === value.id) {
+                    let keywords = []
+                    tags.map(tag => {
+                      if (record.tagId === tag.id) {
+                        keywords.push(tag.name)
+                      }
+                    })
+                    return (
+                      keywords.map(key => {
+                        return (<Label as='a' color='red' tag>{key}</Label>)
+                      })
+                    )
+                  }
+                })}</TableCell>
               </TableRow>
             )
           })}

@@ -14,7 +14,7 @@ const paths = config.utils_paths
 app.use(require('connect-history-api-fallback')())
 
 // API Proxy
-app.use('/api', proxy('https://apicapstone.herokuapp.com'))
+app.use('/api', proxy('http://localhost:3333'))
 
 // ------------------------------------
 // Apply Webpack HMR Middleware

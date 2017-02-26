@@ -101,7 +101,7 @@ class componentName extends Component {
           </MenuMenu>
         </Menu>
         <Segment>
-          {activeItem === 'browse' && !empty(list) ? <EquationList list={list.equations} {...this.props} /> : null}
+          {activeItem === 'browse' && !empty(list) ? <EquationList tags={list.tags} records={list.records} list={list.equations} {...this.props} /> : null}
           {activeItem === 'submit' && !empty(list) ? <EquationForm tags={list.tags} username={username} {...this.props} /> : null}
         </Segment>
 
