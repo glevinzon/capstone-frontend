@@ -126,7 +126,7 @@ class EquationList extends Component {
                     })
                     return (
                       keywords.map(key => {
-                        return (<Label as='a' color='red' tag>{key}</Label>)
+                        return (<Label as='a' color='teal' tag>{key}</Label>)
                       })
                     )
                   }
@@ -166,6 +166,7 @@ class EquationList extends Component {
 
 EquationList.propTypes = {
   getEquations: PropTypes.func,
+  deleteEquation: PropTypes.func,
   equations: PropTypes.object,
   list: PropTypes.object,
   tags: PropTypes.array,
