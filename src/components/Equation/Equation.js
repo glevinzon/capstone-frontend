@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react'
+import EquationSearch from './EquationSearch'
 import EquationList from './EquationList'
 import EquationForm from './EquationForm'
 import { Dimmer, Button, Segment, Form, Input, Menu, Grid } from 'semantic-ui-react'
@@ -68,7 +69,6 @@ class componentName extends Component {
   }
 
   render () {
-    console.log(this.props)
     const { username, activeItem, active } = this.state
     let { list } = this.props.equations
 
@@ -97,7 +97,7 @@ class componentName extends Component {
           <MenuItem name='submit' active={activeItem === 'submit'} onClick={this.handleItemClick} />
           <MenuMenu position='right'>
             <MenuItem>
-              <Input icon='search' placeholder='Search...' />
+              {!empty(list) ? <EquationSearch {...this.props} /> : null}
             </MenuItem>
           </MenuMenu>
         </Menu>
