@@ -9,9 +9,9 @@ export const GET_EQUATIONS_FAIL = 'wc:equations:get_equations_fail'
 export const CREATE_EQUATION = 'wc:equations:create_equation'
 export const CREATE_EQUATION_SUCCESS = 'wc:equations:create_equation_success'
 export const CREATE_EQUATION_FAIL = 'wc:equations:create_equation_fail'
-export const GET_EQUATION = 'wc:equations:get_equation'
-export const GET_EQUATION_SUCCESS = 'wc:equations:get_equation_success'
-export const GET_EQUATION_FAIL = 'wc:equations:get_equation_fail'
+export const GET_EQUATIONS_BY_TAG = 'wc:equations:get_equations_by_tag'
+export const GET_EQUATIONS_BY_TAG_SUCCESS = 'wc:equations:get_equations_by_tag_success'
+export const GET_EQUATIONS_BY_TAG_FAIL = 'wc:equations:get_equations_by_tag_fail'
 export const UPDATE_EQUATION = 'wc:equations:update_equation'
 export const UPDATE_EQUATION_SUCCESS = 'wc:equations:update_equation_success'
 export const UPDATE_EQUATION_FAIL = 'wc:equations:update_equation_fail'
@@ -68,16 +68,16 @@ export function createEquation (data) {
   }
 }
 
-export function getEquation (eqId) {
+export function getEquationByTag (eqId) {
   return (dispatch, getState) => {
     return dispatch({
       [CALL_API]: {
-        endpoint: `/api/equations/${eqId}`,
+        endpoint: `/api/equations/${tag}`,
         method: 'GET',
         headers: {
           'Accept': 'application/json'
         },
-        types: [GET_EQUATION, GET_EQUATION_SUCCESS, GET_EQUATION_FAIL]
+        types: [GET_EQUATIONS_BY_TAG, GET_EQUATIONS_BY_TAG_SUCCESS, GET_EQUATIONS_BY_TAG_FAIL]
       }
     })
   }
@@ -165,20 +165,23 @@ const ACTION_HANDLERS = {
     createdEquation: null,
     equationCreationErrors: action.payload.response.errors
   }),
-  [GET_EQUATION]: (state) => ({
+  [GET_EQUATIONS_BY_TAG]: (state) => ({
     ...state,
-    fetchingEquation: true
+    fetchingEquationsByTag: true,
+    createSuccess: false,
+    updateSuccess: false,
+    deleteEquationSuccess: false
   }),
-  [GET_EQUATION_SUCCESS]: (state, action) => {
+  [GET_EQUATIONS_BY_TAG_SUCCESS]: (state, action) => {
     return {
       ...state,
-      fetchingEquation: false,
-      equation: action.payload.data
+      fetchingEquationsByTag: false,
+      equationsByTag: action.payload.data
     }
   },
-  [GET_EQUATION_FAIL]: (state, action) => ({
+  [GET_EQUATIONS_BY_TAG_FAIL]: (state, action) => ({
     ...state,
-    fetchingEquation: false
+    fetchingEquationsByTag: false
   }),
   [UPDATE_EQUATION]: (state) => ({
     ...state,
@@ -238,8 +241,8 @@ const initialState = {
   updatedEquation: null,
   updateSuccess: false,
   updatingEquation: false,
-  equation: {},
-  fetchingEquation: false,
+  equationsByTag: {},
+  fetchingEquationsByTag: false,
   deletingEquation: false,
   deleteEquationSuccess: false,
   deleteEquationResponse: null,
