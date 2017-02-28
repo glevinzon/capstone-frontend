@@ -17,8 +17,9 @@ class EquationSearch extends Component {
       title: eq.note,
       description: 'note'
     }))
-
-    this.source = this.tags.concat(this.equationNames).concat(this.equationNotes)
+    this.combined = this.tags.concat(this.equationNames).concat(this.equationNotes)
+    this.sorted = _.orderBy(this.combined, ['name'])
+    this.source = this.sorted
 
     console.log(this.source)
   }
