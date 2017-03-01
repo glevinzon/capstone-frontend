@@ -2,7 +2,8 @@ import React, { Component, PropTypes } from 'react'
 import EquationSearch from './EquationSearch'
 import EquationList from './EquationList'
 import EquationForm from './EquationForm'
-import { Dimmer, Button, Segment, Form, Input, Menu, Grid } from 'semantic-ui-react'
+import SearchResults from './SearchResults'
+import { Dimmer, Button, Segment, Form, Input, Menu, Grid, Loader } from 'semantic-ui-react'
 import validateInput from 'utils/validators/username'
 var empty = require('is-empty')
 var _ = require('lodash')
@@ -18,7 +19,8 @@ class componentName extends Component {
       username: '',
       active: false,
       errors: [],
-      isLoading: false
+      isLoading: false,
+      isSearching: false
     }
     this.props.getEquations('paginate', 1, 15)
   }
@@ -29,6 +31,15 @@ class componentName extends Component {
       this.handleOpen()
     } else {
       this.handleClose()
+    }
+  }
+
+  componentWillReceiveProps (nextProps) {
+    let { fetchingEquationBySearch } = nextProps.equations
+    if (fetchingEquationBySearch) {
+      this.setState({isSearching: true})
+    } else {
+      this.setState({isSearching: false})
     }
   }
 
@@ -69,8 +80,8 @@ class componentName extends Component {
   }
 
   render () {
-    const { username, activeItem, active } = this.state
-    let { list } = this.props.equations
+    const { username, activeItem, active, isSearching } = this.state
+    let { list, fetchingEquationSuccess } = this.props.equations
 
     return (
       <div>
@@ -102,8 +113,12 @@ class componentName extends Component {
           </MenuMenu>
         </Menu>
         <Segment>
-          {activeItem === 'browse' && !empty(list) ? <EquationList tags={list.tags} records={list.records} list={list.equations} {...this.props} /> : null}
-          {activeItem === 'submit' && !empty(list) ? <EquationForm tags={list.tags} username={username} {...this.props} /> : null}
+          <Dimmer active={isSearching}>
+            <Loader content='Searching' />
+          </Dimmer>
+          {activeItem === 'browse' && !empty(list) && fetchingEquationSuccess === false ? <EquationList tags={list.tags} records={list.records} list={list.equations} {...this.props} /> : null}
+          {activeItem === 'submit' && !empty(list) && fetchingEquationSuccess === false ? <EquationForm tags={list.tags} username={username} {...this.props} /> : null}
+          {fetchingEquationSuccess === true ? <SearchResults {...this.props} /> : null}
         </Segment>
 
       </div>

@@ -20,8 +20,6 @@ class EquationSearch extends Component {
     this.combined = this.tags.concat(this.equationNames).concat(this.equationNotes)
     this.sorted = _.orderBy(this.combined, ['name'])
     this.source = this.sorted
-
-    console.log(this.source)
   }
 
   componentWillMount () {
@@ -30,7 +28,10 @@ class EquationSearch extends Component {
 
   resetComponent = () => this.setState({ isLoading: false, results: [], value: '' })
 
-  handleResultSelect = (e, result) => this.setState({ value: result.title })
+  handleResultSelect = (e, result) => {
+    this.setState({ value: result.title })
+    this.props.getEquationsBySearch(result.description, result.title)
+  }
 
   handleSearchChange = (e, value) => {
     this.setState({ isLoading: true, value })
@@ -64,7 +65,8 @@ class EquationSearch extends Component {
 }
 
 EquationSearch.propTypes = {
-  equations: PropTypes.object
+  equations: PropTypes.object,
+  getEquationsBySearch: PropTypes.func
 }
 
 export default EquationSearch
