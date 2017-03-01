@@ -76,7 +76,7 @@ class EquationList extends Component {
     let { fetchingEquations } = this.props.equations
     let data = list.data !== undefined ? list.data : []
     return (
-      <div className='ui container'>
+      <div className='ui fluid container'>
         <Modal open={this.state.isOpen} basic size='small'>
           <Header icon='remove' content='Delete Equation' />
           <ModalContent>
