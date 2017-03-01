@@ -17,7 +17,6 @@ class SearchResults extends Component {
   render () {
     let { equationsBySearch } = this.props.equations
     let { tags, records } = this.props
-    console.log(equationsBySearch)
     if (equationsBySearch.length >= 1) {
       return (
         <ItemGroup>
