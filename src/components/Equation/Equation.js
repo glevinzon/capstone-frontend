@@ -118,7 +118,7 @@ class componentName extends Component {
           </Dimmer>
           {activeItem === 'browse' && !empty(list) && fetchingEquationSuccess === false ? <EquationList tags={list.tags} records={list.records} list={list.equations} {...this.props} /> : null}
           {activeItem === 'submit' && !empty(list) && fetchingEquationSuccess === false ? <EquationForm tags={list.tags} username={username} {...this.props} /> : null}
-          {fetchingEquationSuccess === true ? <SearchResults {...this.props} /> : null}
+          {fetchingEquationSuccess === true ? <SearchResults tags={list.tags} records={list.records} {...this.props} /> : null}
         </Segment>
 
       </div>

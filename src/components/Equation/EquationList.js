@@ -42,6 +42,10 @@ class EquationList extends Component {
     }
   }
 
+  handleSearchByTag = (keyword) => {
+    this.props.getEquationsBySearch('tag', keyword)
+  }
+
   handlePaginationClick = (type) => {
     let { page, count } = this.state
     if (type === 'prev') {
@@ -126,7 +130,7 @@ class EquationList extends Component {
                     })
                     return (
                       keywords.map(key => {
-                        return (<Label as='a' color='teal' tag>{key}</Label>)
+                        return (<Label onClick={e => { this.handleSearchByTag(key) }} as='a' color='teal' tag>{key}</Label>)
                       })
                     )
                   }
@@ -170,7 +174,8 @@ EquationList.propTypes = {
   equations: PropTypes.object,
   list: PropTypes.object,
   tags: PropTypes.array,
-  records: PropTypes.array
+  records: PropTypes.array,
+  getEquationsBySearch: PropTypes.func
 }
 
 export default EquationList

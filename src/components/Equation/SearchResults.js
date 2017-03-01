@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import { Image, Item, Message } from 'semantic-ui-react'
+import { Item, Message, Label } from 'semantic-ui-react'
 var moment = require('moment')
 
 const ItemGroup = Item.Group
@@ -11,8 +11,12 @@ const ItemExtra = Item.Extra
 const ItemContent = Item.Content
 
 class SearchResults extends Component {
+  handleSearchByTag = (keyword) => {
+    this.props.getEquationsBySearch('tag', keyword)
+  }
   render () {
     let { equationsBySearch } = this.props.equations
+    let { tags, records } = this.props
     console.log(equationsBySearch)
     if (equationsBySearch.length >= 1) {
       return (
@@ -26,9 +30,23 @@ class SearchResults extends Component {
                   <ItemHeader as='a'>{result.name}</ItemHeader>
                   <ItemMeta>{result.note}</ItemMeta>
                   <ItemDescription>
-                    <Image src='http://semantic-ui.com/images/wireframe/short-paragraph.png' />
+                    {records.map(record => {
+                      if (record.eqId === result.id) {
+                        let keywords = []
+                        tags.map(tag => {
+                          if (record.tagId === tag.id) {
+                            keywords.push(tag.name)
+                          }
+                        })
+                        return (
+                          keywords.map(key => {
+                            return (<Label onClick={e => { this.handleSearchByTag(key) }} as='a' color='teal' tag>{key}</Label>)
+                          })
+                        )
+                      }
+                    })}
                   </ItemDescription>
-                  <ItemExtra>Created: {moment(result.created_at).format('llll')}</ItemExtra>
+                  <ItemExtra>{moment(result.created_at).format('llll')}</ItemExtra>
                 </ItemContent>
               </Item>
             )
@@ -47,7 +65,10 @@ class SearchResults extends Component {
 }
 
 SearchResults.propTypes = {
-  equations: PropTypes.object
+  equations: PropTypes.object,
+  tags: PropTypes.array,
+  records: PropTypes.array,
+  getEquationsBySearch: PropTypes.func
 }
 
 export default SearchResults
