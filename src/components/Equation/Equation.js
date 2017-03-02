@@ -3,6 +3,7 @@ import EquationSearch from './EquationSearch'
 import EquationList from './EquationList'
 import EquationForm from './EquationForm'
 import SearchResults from './SearchResults'
+import Stats from './Statistics'
 import { Dimmer, Button, Segment, Form, Input, Menu, Grid, Loader } from 'semantic-ui-react'
 import validateInput from 'utils/validators/username'
 var empty = require('is-empty')
@@ -106,6 +107,16 @@ class componentName extends Component {
         <Menu className='ui container' pointing>
           <MenuItem name='browse' active={activeItem === 'browse'} onClick={this.handleItemClick} />
           <MenuItem name='submit' active={activeItem === 'submit'} onClick={this.handleItemClick} />
+          <MenuMenu position='right'>
+            <MenuItem>
+              <Stats color='grey' value={list.equations.total} label='Equations' {...this.props} />
+            </MenuItem>
+          </MenuMenu>
+          <MenuMenu position='right'>
+            <MenuItem>
+              <Stats color='grey' value={list.tags.length} label='Tags' {...this.props} />
+            </MenuItem>
+          </MenuMenu>
           <MenuMenu position='right'>
             <MenuItem>
               {!empty(list) ? <EquationSearch {...this.props} /> : null}
