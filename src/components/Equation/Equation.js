@@ -109,17 +109,17 @@ class componentName extends Component {
           <MenuItem name='submit' active={activeItem === 'submit'} onClick={this.handleItemClick} />
           <MenuMenu position='right'>
             <MenuItem>
-              {!empty(list) ? <Stats color='grey' value={list.equations.total} label='Equations' {...this.props} /> : null}
+              {list && !empty(list) ? <Stats color='grey' value={list.equations.total} label='Equations' {...this.props} /> : null}
             </MenuItem>
           </MenuMenu>
           <MenuMenu position='right'>
             <MenuItem>
-              {!empty(list) ? <Stats color='grey' value={list.tags.length} label='Tags' {...this.props} /> : null}
+              {list && !empty(list) ? <Stats color='grey' value={list.tags.length} label='Tags' {...this.props} /> : null}
             </MenuItem>
           </MenuMenu>
           <MenuMenu position='right'>
             <MenuItem>
-              {!empty(list) ? <EquationSearch {...this.props} /> : null}
+              {list && !empty(list) ? <EquationSearch {...this.props} /> : null}
             </MenuItem>
           </MenuMenu>
         </Menu>

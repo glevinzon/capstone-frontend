@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { Button, Form, Input, Dropdown } from 'semantic-ui-react'
 import validateInput from 'utils/validators/equation'
+import Upload from './common/Upload'
 
 const FormGroup = Form.Group
 const FormField = Form.Field
@@ -75,6 +76,7 @@ class EquationForm extends Component {
     const { currentValues, isLoading } = this.state
     return (
       <div className='ui container'>
+        <Upload />
         <Form loading={isLoading} onSubmit={this.onSubmit}>
           <FormGroup widths='equal'>
             <FormField>
