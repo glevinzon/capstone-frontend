@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { Icon, Dimmer, Loader, Menu, Table, Label, Checkbox, Button, Modal, Header } from 'semantic-ui-react'
+import Upload from './common/Upload'
 
 const TableHeader = Table.Header
 const TableRow = Table.Row
@@ -20,24 +21,29 @@ class EquationList extends Component {
       count: 15,
       active: false,
       id: null,
-      isOpen: false
+      isOpen: false,
+      isUploadModalOpen: false,
+      uploadedFile: [],
+      fileName: '',
+      isLoading: false
     }
   }
 
   componentWillReceiveProps (nextProps) {
     let { page, count } = this.state
-    let {fetchingEquations, deletingEquation, deleteEquationSuccess} = nextProps.equations
-    if (fetchingEquations || deletingEquation) {
+    let {fetchingEquations, deletingEquation, deleteEquationSuccess, uploadingFile, fileUploadSuccess} = nextProps.equations
+    if (fetchingEquations || deletingEquation || uploadingFile) {
       this.setState({
         active: true,
-        isOpen: false
+        isOpen: false,
+        isUploadModalOpen: false
       })
     } else {
       this.setState({
         active: false
       })
     }
-    if (deleteEquationSuccess) {
+    if (deleteEquationSuccess || fileUploadSuccess) {
       this.props.getEquations('paginate', page, count)
     }
   }
@@ -75,12 +81,59 @@ class EquationList extends Component {
     }
   }
 
+  handleUploadClick = (eqId = null) => {
+    let {isUploadModalOpen} = this.state
+    let {id} = this.state
+    if (!isUploadModalOpen) {
+      this.setState({id: eqId, isUploadModalOpen: true})
+    } else {
+      if (id) {
+        const { uploadedFile } = this.state
+        const data = new FormData()
+        data.append('audio', uploadedFile[0])
+        if (uploadedFile.length > 0) {
+          this.setState({ isLoading: true })
+          this.props.uploadFile(id, data)
+        }
+      }
+    }
+  }
+
+  close = () => this.setState({ isUploadModalOpen: false })
+
+  renderUploadModal = () => {
+    const { isUploadModalOpen } = this.state
+
+    return (
+      <Modal
+        open={isUploadModalOpen}
+        closeOnEscape
+        closeOnRootNodeClick
+        onClose={this.close}
+        >
+        <ModalContent>
+          <Upload uploadCallback={this.uploadCb} {...this.props} />
+        </ModalContent>
+        <ModalActions>
+          <Button positive labelPosition='right' icon='upload' content='Upload' onClick={this.handleUploadClick} />
+        </ModalActions>
+      </Modal>
+    )
+  }
+
+  uploadCb = (data) => {
+    this.setState({
+      uploadedFile: data
+    })
+  }
+
   render () {
     let { list, tags, records } = this.props
     let { fetchingEquations } = this.props.equations
     let data = list.data !== undefined ? list.data : []
     return (
       <div className='ui fluid container'>
+        {this.renderUploadModal()}
         <Modal open={this.state.isOpen} basic size='small'>
           <Header icon='remove' content='Delete Equation' />
           <ModalContent>
@@ -104,7 +157,6 @@ class EquationList extends Component {
               <TableHeaderCell>Active</TableHeaderCell>
               <TableHeaderCell>Name</TableHeaderCell>
               <TableHeaderCell>Note</TableHeaderCell>
-              <TableHeaderCell>AudioUrl</TableHeaderCell>
               <TableHeaderCell>Tags</TableHeaderCell>
               <TableHeaderCell />
             </TableRow>
@@ -117,9 +169,8 @@ class EquationList extends Component {
                 <TableCell collapsing>
                   <Checkbox toggle readOnly checked={value.active} />
                 </TableCell>
-                <TableCell>{value.name}</TableCell>
+                <TableCell>{value.audioUrl ? <a href={value.audioUrl} target='_blank'>{value.name}</a> : value.name}</TableCell>
                 <TableCell>{value.note}</TableCell>
-                <TableCell>{value.audioUrl}</TableCell>
                 <TableCell>{records.map(record => {
                   if (record.eqId === value.id) {
                     let keywords = []
@@ -138,6 +189,8 @@ class EquationList extends Component {
                 <TableCell>
                   <ButtonGroup>
                     <Button positive>Edit</Button>
+                    <Button.Or />
+                    <Button basic color='green' onClick={e => this.handleUploadClick(value.id)}>Upload</Button>
                     <Button.Or />
                     <Button negative onClick={e => this.handleDeleteClick(value.id)}>Delete</Button>
                   </ButtonGroup>

@@ -18,6 +18,9 @@ export const UPDATE_EQUATION_FAIL = 'wc:equations:update_equation_fail'
 export const DELETE_EQUATION = 'wc:equation:delete_equation'
 export const DELETE_EQUATION_SUCCESS = 'wc:equation:delete_equation_success'
 export const DELETE_EQUATION_FAIL = 'wc:equation:delete_equation_fail'
+export const UPLOAD_FILE = 'wc:equation:upload_file'
+export const UPLOAD_FILE_SUCCESS = 'wc:equation:upload_file_success'
+export const UPLOAD_FILE_FAIL = 'wc:equation:upload_file_fail'
 
 // ------------------------------------
 // Actions
@@ -100,6 +103,19 @@ export function updateEquation (data, eqId) {
   }
 }
 
+export function uploadFile (eqId, data) {
+  return (dispatch, getState) => {
+    return dispatch({
+      [CALL_API]: {
+        endpoint: `/api/equation/${eqId}/upload`,
+        method: 'POST',
+        body: data,
+        types: [UPLOAD_FILE, UPLOAD_FILE_SUCCESS, UPLOAD_FILE_FAIL]
+      }
+    })
+  }
+}
+
 export function deleteEquation (eqId) {
   return (dispatch, getState) => {
     return dispatch({
@@ -131,6 +147,7 @@ const ACTION_HANDLERS = {
     updateSuccess: false,
     deleteEquationSuccess: false,
     fetchingEquationSuccess: false,
+    fileUploadSuccess: false,
     ...emptyErrors
   }),
   [GET_EQUATIONS_SUCCESS]: (state, action) => {
@@ -172,7 +189,8 @@ const ACTION_HANDLERS = {
     createSuccess: false,
     updateSuccess: false,
     deleteEquationSuccess: false,
-    fetchingEquationSuccess: false
+    fetchingEquationSuccess: false,
+    fileUploadSuccess: false
   }),
   [GET_EQUATION_SUCCESS]: (state, action) => {
     return {
@@ -228,6 +246,20 @@ const ACTION_HANDLERS = {
     deleteEquationSuccess: false,
     deleteEquationResponse: null,
     deleteEquationErrors: action.payload.response.errors
+  }),
+  [UPLOAD_FILE]: state => ({
+    ...state,
+    uploadingFile: true
+  }),
+  [UPLOAD_FILE_SUCCESS]: (state, action) => ({
+    ...state,
+    uploadingFile: false,
+    fileUploadSuccess: true
+  }),
+  [UPLOAD_FILE_FAIL]: (state, action) => ({
+    ...state,
+    uploadingFile: false,
+    uploadFileErrors: action.payload.response.error
   })
 }
 
@@ -251,7 +283,11 @@ const initialState = {
   deletingEquation: false,
   deleteEquationSuccess: false,
   deleteEquationResponse: null,
-  deleteEquationErrors: []
+  deleteEquationErrors: [],
+  uploadingFile: false,
+  fileUploadSuccess: false,
+  fileUploaded: [],
+  uploadFileErrors: []
 }
 export default function equationsReducer (state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
