@@ -54,7 +54,7 @@ class Upload extends Component {
 }
 
 Upload.propTypes = {
-
+  uploadCallback: PropTypes.func
 }
 
 export default Upload
