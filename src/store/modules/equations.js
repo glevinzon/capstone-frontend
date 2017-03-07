@@ -254,7 +254,8 @@ const ACTION_HANDLERS = {
   [UPLOAD_FILE_SUCCESS]: (state, action) => ({
     ...state,
     uploadingFile: false,
-    fileUploadSuccess: true
+    fileUploadSuccess: true,
+    fileUploaded: action.payload.data
   }),
   [UPLOAD_FILE_FAIL]: (state, action) => ({
     ...state,
