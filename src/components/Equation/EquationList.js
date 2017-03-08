@@ -57,7 +57,7 @@ class EquationList extends Component {
     }
 
     if (!empty(equationCreationErrors)) {
-      Alert.error(`<h4>Errors!</h4><ul><li>${equationCreationErrors.message}</li></ul>`, {
+      Alert.error(`<h4>Creation Failed!</h4><ul><li>${equationCreationErrors.message}</li></ul>`, {
         position: 'top-right',
         effect: 'scale',
         html: true,
@@ -66,7 +66,7 @@ class EquationList extends Component {
         }
       })
     } else if (!empty(equationUpdateErrors)) {
-      Alert.error(`<h4>Errors!</h4><ul><li>${equationUpdateErrors.message}</li></ul>`, {
+      Alert.error(`<h4>Update Failed!</h4><ul><li>${equationUpdateErrors.message}</li></ul>`, {
         position: 'top-right',
         effect: 'scale',
         html: true,
@@ -75,7 +75,7 @@ class EquationList extends Component {
         }
       })
     } else if (!empty(deleteEquationErrors)) {
-      Alert.error(`<h4>Errors!</h4><ul><li>${deleteEquationErrors.message}</li></ul>`, {
+      Alert.error(`<h4>Delete Failed!</h4><ul><li>${deleteEquationErrors.message}</li></ul>`, {
         position: 'top-right',
         effect: 'scale',
         html: true,
@@ -84,7 +84,7 @@ class EquationList extends Component {
         }
       })
     } else if (!empty(uploadFileErrors)) {
-      Alert.error(`<h4>Errors!</h4><ul><li>${uploadFileErrors.message}</li></ul>`, {
+      Alert.error(`<h4>Upload Failed!</h4><ul><li>${uploadFileErrors.message}</li></ul>`, {
         position: 'top-right',
         effect: 'scale',
         html: true,
