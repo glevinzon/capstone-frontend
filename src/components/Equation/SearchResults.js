@@ -2,6 +2,8 @@ import React, { Component, PropTypes } from 'react'
 import { Item, Message, Label, Button, Icon, Segment, Modal, Header, Dimmer, Loader } from 'semantic-ui-react'
 var moment = require('moment')
 import Upload from './common/Upload'
+import Alert from 'react-s-alert'
+var empty = require('is-empty')
 
 const ModalContent = Modal.Content
 const ModalActions = Modal.Actions
@@ -26,7 +28,7 @@ class SearchResults extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    let {uploadingFile, fileUploadSuccess, fileUploaded} = nextProps.equations
+    let {uploadingFile, fileUploadSuccess, fileUploaded, uploadFileErrors} = nextProps.equations
     if (uploadingFile) {
       this.setState({
         active: true,
@@ -38,7 +40,21 @@ class SearchResults extends Component {
       })
     }
     if (fileUploadSuccess) {
-      window.location = fileUploaded.audioUrl
+      this.props.getEquations('paginate', 1, 15)
+      Alert.success('Success', {
+        position: 'top-right',
+        effect: 'scale'
+      })
+    }
+    if (!empty(uploadFileErrors)) {
+      Alert.error(`<h4>Upload Failed!</h4><ul><li>${uploadFileErrors.message}</li></ul>`, {
+        position: 'top-right',
+        effect: 'scale',
+        html: true,
+        onShow: function () {
+          this.props.getEquations('paginate', 1, 15)
+        }
+      })
     }
   }
 
@@ -105,7 +121,7 @@ class SearchResults extends Component {
             return (
               <Item>
               <Segment raised>
-                <Label as='a' href={result.audioUrl ? result.audioUrl : null} target='_blank' color={result.audioUrl ? 'blue' : 'red'} ribbon='right'>{result.audioUrl ? result.audioUrl.split('.').pop().toUpperCase() : 'EMPTY'}</Label>
+                <Label as='a' color={result.audioUrl ? 'blue' : 'red'} ribbon='right'>{result.audioUrl ? result.audioUrl.split('.').pop().toUpperCase() : 'EMPTY'}</Label>
               </Segment>
                 <ItemContent style={{padding: '20px'}}>
                   <ItemHeader as='a'>

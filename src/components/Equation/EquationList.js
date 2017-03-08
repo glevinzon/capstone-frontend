@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import { Icon, Dimmer, Loader, Menu, Table, Label, Checkbox, Button, Modal, Header } from 'semantic-ui-react'
+import { Icon, Dimmer, Loader, Menu, Table, Label, Checkbox, Button, Modal, Header, Segment } from 'semantic-ui-react'
 import Upload from './common/Upload'
 import Alert from 'react-s-alert'
 var empty = require('is-empty')
@@ -199,7 +199,8 @@ class EquationList extends Component {
           </Dimmer>
           <TableHeader>
             <TableRow>
-              <TableHeaderCell>Active</TableHeaderCell>
+              <TableHeaderCell></TableHeaderCell>
+              <TableHeaderCell>Audio</TableHeaderCell>
               <TableHeaderCell>Name</TableHeaderCell>
               <TableHeaderCell>Note</TableHeaderCell>
               <TableHeaderCell>Tags</TableHeaderCell>
@@ -214,7 +215,10 @@ class EquationList extends Component {
                 <TableCell collapsing>
                   <Checkbox toggle readOnly checked={value.active} />
                 </TableCell>
-                <TableCell>{value.audioUrl ? <a href={value.audioUrl} target='_blank'>{value.name}</a> : value.name}</TableCell>
+                <TableCell><Segment raised>
+                <Label as='a' color={value.audioUrl ? 'blue' : 'red'} ribbon='left'>{value.audioUrl ? value.audioUrl.split('.').pop().toUpperCase() : 'EMPTY'}</Label>
+              </Segment></TableCell>
+                <TableCell>{value.name}</TableCell>
                 <TableCell>{value.note}</TableCell>
                 <TableCell>{records.map(record => {
                   if (record.eqId === value.id) {
