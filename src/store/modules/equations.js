@@ -132,8 +132,10 @@ export function deleteEquation (eqId) {
 }
 
 const emptyErrors = {
-  equationCreationErrors: [],
-  equationUpdateErrors: []
+  equationCreationErrors: {},
+  equationUpdateErrors: {},
+  deleteEquationErrors: {},
+  uploadFileErrors: {}
 }
 
 // ------------------------------------
@@ -270,8 +272,8 @@ const ACTION_HANDLERS = {
 const initialState = {
   fetchingEquations: false,
   list: {},
-  equationCreationErrors: [],
-  equationUpdateErrors: [],
+  equationCreationErrors: {},
+  equationUpdateErrors: {},
   createdEquation: null,
   createSuccess: false,
   creatingEquation: false,
@@ -284,11 +286,11 @@ const initialState = {
   deletingEquation: false,
   deleteEquationSuccess: false,
   deleteEquationResponse: null,
-  deleteEquationErrors: [],
+  deleteEquationErrors: {},
   uploadingFile: false,
   fileUploadSuccess: false,
   fileUploaded: [],
-  uploadFileErrors: []
+  uploadFileErrors: {}
 }
 export default function equationsReducer (state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]

@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { Button, Form, Input, Dropdown } from 'semantic-ui-react'
 import validateInput from 'utils/validators/equation'
+import Alert from 'react-s-alert'
 
 const FormGroup = Form.Group
 const FormField = Form.Field
@@ -30,12 +31,23 @@ class EquationForm extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    if (nextProps.equations.creatingShop) {
+    if (nextProps.equations.creatingEquation) {
       this.setState({ isLoading: true })
     }
     if (nextProps.equations.createSuccess) {
       this.setState({ name: '', note: '', errors: [], isLoading: false, currentValues: [] })
+      this.props.getEquations('paginate', 1, 15)
+      if (!this.state.isLoading) {
+        Alert.success('Success', {
+          position: 'top-right',
+          effect: 'scale'
+        })
+      }
     }
+  }
+
+  shouldComponentUpdate (nextProps, nextState) {
+    return this.state != nextState
   }
 
   handleAddition = (e, { value }) => {
@@ -54,8 +66,16 @@ class EquationForm extends Component {
 
   isValid = (data) => {
     const { errors, isValid } = validateInput(data)
+    console.log(errors, isValid)
 
     if (!isValid) {
+      if (errors) {
+        Alert.error('<h4>Errors!</h4><ul>' + (errors.name ? (`<li>${errors.name}</li>`) : '') + (errors.note ? (`<li>${errors.note}</li>`) : '') + '</ul>', {
+          position: 'top-right',
+          effect: 'scale',
+          html: true
+        })
+      }
       this.setState({ errors, isLoading: false })
     }
 

@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react'
 import { Icon, Dimmer, Loader, Menu, Table, Label, Checkbox, Button, Modal, Header } from 'semantic-ui-react'
 import Upload from './common/Upload'
+import Alert from 'react-s-alert'
+var empty = require('is-empty')
 
 const TableHeader = Table.Header
 const TableRow = Table.Row
@@ -32,6 +34,7 @@ class EquationList extends Component {
   componentWillReceiveProps (nextProps) {
     let { page, count } = this.state
     let {fetchingEquations, deletingEquation, deleteEquationSuccess, uploadingFile, fileUploadSuccess} = nextProps.equations
+    let {equationCreationErrors, equationUpdateErrors, deleteEquationErrors, uploadFileErrors} = nextProps.equations
     if (fetchingEquations || deletingEquation || uploadingFile) {
       this.setState({
         active: true,
@@ -44,6 +47,39 @@ class EquationList extends Component {
       })
     }
     if (deleteEquationSuccess || fileUploadSuccess) {
+      Alert.success('Success', {
+        position: 'top-right',
+        effect: 'scale'
+      })
+      this.props.getEquations('paginate', page, count)
+    }
+
+    if (!empty(equationCreationErrors)) {
+      Alert.error(`<h4>Errors!</h4><ul><li>${equationCreationErrors.message}</li></ul>`, {
+        position: 'top-right',
+        effect: 'scale',
+        html: true
+      })
+      this.props.getEquations('paginate', page, count)
+    } else if (!empty(equationUpdateErrors)) {
+      Alert.error(`<h4>Errors!</h4><ul><li>${equationUpdateErrors.message}</li></ul>`, {
+        position: 'top-right',
+        effect: 'scale',
+        html: true
+      })
+      this.props.getEquations('paginate', page, count)
+    } else if (!empty(deleteEquationErrors)) {
+      Alert.error(`<h4>Errors!</h4><ul><li>${deleteEquationErrors.message}</li></ul>`, {
+        position: 'top-right',
+        effect: 'scale',
+        html: true
+      })
+    } else if (!empty(uploadFileErrors)) {
+      Alert.error(`<h4>Errors!</h4><ul><li>${uploadFileErrors.message}</li></ul>`, {
+        position: 'top-right',
+        effect: 'scale',
+        html: true
+      })
       this.props.getEquations('paginate', page, count)
     }
   }
