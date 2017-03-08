@@ -49,38 +49,49 @@ class EquationList extends Component {
     if (deleteEquationSuccess || fileUploadSuccess) {
       Alert.success('Success', {
         position: 'top-right',
-        effect: 'scale'
+        effect: 'scale',
+        onShow: function () {
+          this.props.getEquations('paginate', page, count)
+        }
       })
-      this.props.getEquations('paginate', page, count)
     }
 
     if (!empty(equationCreationErrors)) {
       Alert.error(`<h4>Errors!</h4><ul><li>${equationCreationErrors.message}</li></ul>`, {
         position: 'top-right',
         effect: 'scale',
-        html: true
+        html: true,
+        onShow: function () {
+          this.props.getEquations('paginate', page, count)
+        }
       })
-      this.props.getEquations('paginate', page, count)
     } else if (!empty(equationUpdateErrors)) {
       Alert.error(`<h4>Errors!</h4><ul><li>${equationUpdateErrors.message}</li></ul>`, {
         position: 'top-right',
         effect: 'scale',
-        html: true
+        html: true,
+        onShow: function () {
+          this.props.getEquations('paginate', page, count)
+        }
       })
-      this.props.getEquations('paginate', page, count)
     } else if (!empty(deleteEquationErrors)) {
       Alert.error(`<h4>Errors!</h4><ul><li>${deleteEquationErrors.message}</li></ul>`, {
         position: 'top-right',
         effect: 'scale',
-        html: true
+        html: true,
+        onShow: function () {
+          this.props.getEquations('paginate', page, count)
+        }
       })
     } else if (!empty(uploadFileErrors)) {
       Alert.error(`<h4>Errors!</h4><ul><li>${uploadFileErrors.message}</li></ul>`, {
         position: 'top-right',
         effect: 'scale',
-        html: true
+        html: true,
+        onShow: function () {
+          this.props.getEquations('paginate', page, count)
+        }
       })
-      this.props.getEquations('paginate', page, count)
     }
   }
 
