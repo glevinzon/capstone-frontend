@@ -80,6 +80,10 @@ class componentName extends Component {
     }
   }
 
+  shouldComponentUpdate (nextProps, nextState) {
+    return this.state != nextState
+  }
+
   render () {
     const { username, activeItem, active, isSearching } = this.state
     let { list, fetchingEquationSuccess } = this.props.equations

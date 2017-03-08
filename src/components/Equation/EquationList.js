@@ -33,7 +33,7 @@ class EquationList extends Component {
 
   componentWillReceiveProps (nextProps) {
     let { page, count } = this.state
-    let {fetchingEquations, deletingEquation, deleteEquationSuccess, uploadingFile, fileUploadSuccess} = nextProps.equations
+    let {fetchingEquations, deletingEquation, deleteEquationSuccess, uploadingFile, fileUploadSuccess, fetchingEquationsSuccess} = nextProps.equations
     let {equationCreationErrors, equationUpdateErrors, deleteEquationErrors, uploadFileErrors} = nextProps.equations
     if (fetchingEquations || deletingEquation || uploadingFile) {
       this.setState({
@@ -47,12 +47,10 @@ class EquationList extends Component {
       })
     }
     if (deleteEquationSuccess || fileUploadSuccess) {
+      this.props.getEquations('paginate', page, count)
       Alert.success('Success', {
         position: 'top-right',
-        effect: 'scale',
-        onShow: function () {
-          this.props.getEquations('paginate', page, count)
-        }
+        effect: 'scale'
       })
     }
 

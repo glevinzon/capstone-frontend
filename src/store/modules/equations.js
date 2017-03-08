@@ -150,12 +150,14 @@ const ACTION_HANDLERS = {
     deleteEquationSuccess: false,
     fetchingEquationSuccess: false,
     fileUploadSuccess: false,
+    fetchingEquationsSuccess: false,
     ...emptyErrors
   }),
   [GET_EQUATIONS_SUCCESS]: (state, action) => {
     return {
       ...state,
       fetchingEquations: false,
+      fetchingEquationsSuccess: true,
       list: action.payload.data
     }
   },
@@ -271,6 +273,7 @@ const ACTION_HANDLERS = {
 // ------------------------------------
 const initialState = {
   fetchingEquations: false,
+  fetchingEquationsSuccess: false,
   list: {},
   equationCreationErrors: {},
   equationUpdateErrors: {},
