@@ -158,7 +158,7 @@ const ACTION_HANDLERS = {
       ...state,
       fetchingEquations: false,
       fetchingEquationsSuccess: true,
-      list: action.payload.data
+      list: action.payload
     }
   },
   [GET_EQUATIONS_FAIL]: (state, action) => ({
@@ -177,7 +177,7 @@ const ACTION_HANDLERS = {
       ...state,
       creatingEquation: false,
       createSuccess: true,
-      createdEquation: action.payload.data
+      createdEquation: action.payload
     }
   },
   [CREATE_EQUATION_FAIL]: (state, action) => ({
@@ -201,7 +201,7 @@ const ACTION_HANDLERS = {
       ...state,
       fetchingEquationBySearch: false,
       fetchingEquationSuccess: true,
-      equationsBySearch: action.payload.data
+      equationsBySearch: action.payload
     }
   },
   [GET_EQUATION_FAIL]: (state, action) => ({
@@ -221,7 +221,7 @@ const ACTION_HANDLERS = {
       ...state,
       updatingEquation: false,
       updateSuccess: true,
-      updatedEquation: action.payload.data
+      updatedEquation: action.payload
     }
   },
   [UPDATE_EQUATION_FAIL]: (state, action) => ({
@@ -242,7 +242,7 @@ const ACTION_HANDLERS = {
     ...state,
     deletingEquation: false,
     deleteEquationSuccess: true,
-    deleteEquationResponse: action.payload.data
+    deleteEquationResponse: action.payload
   }),
   [DELETE_EQUATION_FAIL]: (state, action) => ({
     ...state,
@@ -259,7 +259,7 @@ const ACTION_HANDLERS = {
     ...state,
     uploadingFile: false,
     fileUploadSuccess: true,
-    fileUploaded: action.payload.data
+    fileUploaded: action.payload
   }),
   [UPLOAD_FILE_FAIL]: (state, action) => ({
     ...state,
