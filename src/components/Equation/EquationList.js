@@ -216,7 +216,7 @@ class EquationList extends Component {
                   <Checkbox toggle readOnly checked={value.active} />
                 </TableCell>
                 <TableCell><Segment raised>
-                <Label as='a' href={value.audioUrl} target='_blank' color={value.audioUrl ? 'blue' : 'red'} ribbon='left'>{value.audioUrl ? value.audioUrl.split('.').pop().toUpperCase() : 'EMPTY'}</Label>
+                  <a href={value.audioUrl} target='_blank'><Label color={value.audioUrl ? 'blue' : 'red'} ribbon='left'>{value.audioUrl ? value.audioUrl.split('.').pop().toUpperCase() : 'EMPTY'}</Label></a>
               </Segment></TableCell>
                 <TableCell>{value.name}</TableCell>
                 <TableCell>{value.note}</TableCell>

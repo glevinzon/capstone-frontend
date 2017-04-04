@@ -121,7 +121,7 @@ class SearchResults extends Component {
             return (
               <Item>
               <Segment raised>
-                <Label as='a' href={result.audioUrl} target='_blank' color={result.audioUrl ? 'blue' : 'red'} ribbon='right'>{result.audioUrl ? result.audioUrl.split('.').pop().toUpperCase() : 'EMPTY'}</Label>
+                  <a href={result.audioUrl} target='_blank'><Label color={result.audioUrl ? 'blue' : 'red'} ribbon='left'>{result.audioUrl ? result.audioUrl.split('.').pop().toUpperCase() : 'EMPTY'}</Label></a>
               </Segment>
                 <ItemContent style={{padding: '20px'}}>
                   <ItemHeader as='a'>
