@@ -90,8 +90,8 @@ export function updateEquation (data, eqId) {
   return (dispatch, getState) => {
     return dispatch({
       [CALL_API]: {
-        endpoint: `/api/equations/${eqId}`,
-        method: 'PUT',
+        endpoint: '/api/equations',
+        method: 'POST',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json'

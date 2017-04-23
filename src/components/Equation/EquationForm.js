@@ -15,7 +15,11 @@ class EquationForm extends Component {
       name: '',
       note: '',
       isLoading: false,
-      errors: {}
+      errors: {},
+      id: props.id ? props.id : '',
+      name: props.name ? props.name : '',
+      note: props.note ? props.note : '',
+      keywords: props.keywords ? props.keywords : ''
     }
   }
 
@@ -27,14 +31,20 @@ class EquationForm extends Component {
       options.push({ key: value.name, text: value.name, value: value.name })
     })
 
-    this.setState({options: options})
+    this.setState({options: options, currentValues: this.state.keywords})
   }
 
   componentWillReceiveProps (nextProps) {
+    this.setState({
+      id: nextProps.id,
+      name: nextProps.name,
+      note: nextProps.note,
+      currentValues: nextProps.keywords
+    })
     if (nextProps.equations.creatingEquation) {
       this.setState({ isLoading: true })
     }
-    if (nextProps.equations.createSuccess) {
+    if (nextProps.equations.createSuccess || nextProps.equations.updateSuccess) {
       this.setState({ name: '', note: '', errors: [], isLoading: false, currentValues: [] })
       this.props.getEquations('paginate', 1, 15)
       if (!this.state.isLoading) {
@@ -43,6 +53,9 @@ class EquationForm extends Component {
           effect: 'scale'
         })
       }
+    }
+    if (nextProps.equations.updateSuccess) {
+      this.props.onSubmit()
     }
   }
 
@@ -87,7 +100,11 @@ class EquationForm extends Component {
     let data = this.state
     if (this.isValid(data)) {
       this.setState({ errors: {}, isLoading: true })
-      this.props.createEquation(data)
+      if (this.state.id) {
+        this.props.updateEquation(data)
+      } else {
+        this.props.createEquation(data)
+      }
     }
   }
 

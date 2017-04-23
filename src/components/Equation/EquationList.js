@@ -3,6 +3,7 @@ import { Icon, Dimmer, Loader, Menu, Table, Label, Checkbox, Button, Modal, Head
 import Upload from './common/Upload'
 import Alert from 'react-s-alert'
 var empty = require('is-empty')
+import EquationForm from './EquationForm'
 
 const TableHeader = Table.Header
 const TableRow = Table.Row
@@ -27,7 +28,11 @@ class EquationList extends Component {
       isUploadModalOpen: false,
       uploadedFile: [],
       fileName: '',
-      isLoading: false
+      isLoading: false,
+      isEdit: false,
+      name: null,
+      note: null,
+      keywords: []
     }
   }
 
@@ -172,6 +177,28 @@ class EquationList extends Component {
     })
   }
 
+  handleEditClick = (id, name, note) => {
+    let { tags, records } = this.props
+
+    var keywords = []
+    records.map(record => {
+      if (record.eqId === id) {
+        tags.map(tag => {
+          if (record.tagId === tag.id) {
+            keywords.push(tag.name)
+          }
+        })
+      }
+    })
+
+    console.log(keywords)
+    this.setState({isEdit: true, id: id, name: name, note: note, keywords: keywords})
+  }
+
+  handleSubmitCb = () => {
+    this.setState({isEdit: false, id: '', name: '', note: '', keywords: []})
+  }
+
   render () {
     let { list, tags, records } = this.props
     let { fetchingEquations } = this.props.equations
@@ -193,6 +220,7 @@ class EquationList extends Component {
             </Button>
           </ModalActions>
         </Modal>
+        {this.state.isEdit ? <EquationForm id={this.state.id} name={this.state.name} note={this.state.note} keywords={this.state.keywords} tags={tags} username={'admin'} onSubmit={this.handleSubmitCb} {...this.props} /> : null}
         <Table color={'green'} celled>
           <Dimmer active={this.state.active}>
             <Loader size='large' content='Loading' />
@@ -221,8 +249,8 @@ class EquationList extends Component {
                 <TableCell>{value.name}</TableCell>
                 <TableCell>{value.note}</TableCell>
                 <TableCell>{records.map(record => {
+                  let keywords = []
                   if (record.eqId === value.id) {
-                    let keywords = []
                     tags.map(tag => {
                       if (record.tagId === tag.id) {
                         keywords.push(tag.name)
@@ -237,7 +265,7 @@ class EquationList extends Component {
                 })}</TableCell>
                 <TableCell>
                   <ButtonGroup>
-                    <Button positive>Edit</Button>
+                    <Button positive onClick={e => this.handleEditClick(value.id, value.name, value.note)}>Edit</Button>
                     <Button.Or />
                     <Button basic color='green' onClick={e => this.handleUploadClick(value.id)}>Upload</Button>
                     <Button.Or />
